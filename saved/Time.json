@@ -1,0 +1,12 @@
+{
+	"name":"ThreeLines", 
+	"mins":0,
+	"lines":[
+		{
+		"type":"clock", 
+		"color":"Green", 
+		"data":{
+			"seconds":true
+		}
+	]
+}

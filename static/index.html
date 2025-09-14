@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="obj.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+        <style>
+            input:not([type="radio"]), select {
+                width: 200px; /* Or any desired fixed width */
+                box-sizing: border-box; /* Includes padding and border within the specified width */
+            }
+        </style>        
+    </head>
+    <body>
+        <h4>RGB Matrix Driver</h4>
+        <p id="sysmsg"></p>
+        <select name="rgb-function-to-run" id="rgb-function-to-run" onchange="load_any(this.value)">
+            <option value="">--Select rgb led function--</option>
+            <option value="saved_files">Load saved files</option>
+            <option value="img_files">Load saved images</option>
+            <option value="animation_files">Load saved animation</option>
+            <option value="word_punch">Word Punch</option>
+            <option value="text_display">Text Display</option>
+        </select> 
+        <button onclick="send_to_rgb_matrix('./stop')">Stop</button>
+        <div id="rgb-type"></div>
+        <p></p>
+        <div id="copy-url"></div>
+        <p></p>
+        <a href="shortcuts://create-shortcut">Open Shortcuts on iPhone</a>
+    </body>
+<script type="text/javascript">
+    let fetched_data = [];
+    let current_select = '';
+    fetchData();
+</script>
+</html>

@@ -1,0 +1,21 @@
+{
+	"name":"ThreeLines", 
+	"mins":30,
+	"lines":[
+		{
+			"type":"weather", 
+			"color":"Blue", 
+			"data":{
+				"city": "Glen Iris"
+			}
+		},
+		{
+			"type":"tram", 
+			"color":"Green", 
+			"data":{
+				"stopNo":"1649", 
+				"routeNo":"72"
+			}
+		}
+	]
+}

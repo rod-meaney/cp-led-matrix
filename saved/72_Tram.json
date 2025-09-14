@@ -1,0 +1,19 @@
+{
+	"name":"ThreeLines", 
+	"mins":30,
+	"lines":[
+		{
+			"type":"text", 
+			"color":"Blue", 
+			"text":"72 Tram", 
+			"data":{}
+		},
+		{
+		"type":"tram", 
+		"color":"Green", 
+		"data":{
+			"stopNo":"1649", 
+			"routeNo":"72"
+		}
+	]
+}

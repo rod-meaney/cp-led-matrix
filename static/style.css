@@ -1,0 +1,56 @@
+/* Basic resets and viewport settings */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: sans-serif;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.mobile-form {
+    display: flex;
+    flex-direction: column; /* Stack form elements vertically */
+    gap: 15px; /* Space between form elements */
+}
+
+/* --- For Input Fields & Buttons --- */
+input[type="text"],
+input[type="email"],
+button {
+    width: 100%; /* Make elements take up full available width */
+    padding: 12px; /* Generous padding for easy tapping */
+    font-size: 16px; /* Readable font size */
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Ensures padding is included in the 100% width */
+    border-radius: 4px; /* Slightly rounded corners */
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Labels for better readability --- */
+label {
+    font-weight: bold;
+    margin-bottom: 5px; /* Space below label */
+    display: block; /* Ensure label takes its own line */
+}
+
+/* --- Media Query for larger screens (optional) --- */
+@media (min-width: 768px) {
+    .mobile-form {
+        max-width: 500px; /* Center form and give it a max-width on large screens */
+        margin: 0 auto; /* Center the form block */
+    }
+    body {
+        padding: 40px; /* More padding on larger screens */
+    }
+}

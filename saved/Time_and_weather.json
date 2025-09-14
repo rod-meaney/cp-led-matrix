@@ -1,0 +1,20 @@
+{
+	"name":"ThreeLines", 
+	"mins":0,
+	"lines":[
+		{
+			"type":"weather", 
+			"color":"Orange", 
+			"data":{
+				"city": "Glen Iris"
+			},
+		}
+		{
+			"type":"clock", 
+			"color":"Orange", 
+			"data":{
+				"seconds":false
+			}
+		}
+	]
+}
