@@ -149,7 +149,7 @@ class PMMatrix(object):
             label.x = -line_width
             
     def clock_label(self, label, seconds):
-        ctime = (datetime.now() + timedelta(hours=self.tz_offset)).timetuple()
+        ctime = (datetime.now() + timedelta(seconds=self.tz_offset)).timetuple()
         if seconds:
             label.text=f"{ctime.tm_hour:02}" + ':' + f"{ctime.tm_min:02}" + ':' + f"{ctime.tm_sec:02}"
         else:

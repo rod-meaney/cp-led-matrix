@@ -28,10 +28,12 @@ import time
 Pico specific code
 '''
 cfg = PMConfig('cfg')
-tz_offset = int(cfg.getConfig('tz_offset'))
+tz_offset = 0
 WIFI_SSID = cfg.getConfig('WIFI_SSID')
 WIFI_PASSWORD = cfg.getConfig('WIFI_PASSWORD')
 HOSTNAME = cfg.getConfig('HOSTNAME')
+timezonedb_api_key = cfg.getConfig('timezonedb_api_key')
+timezonedb_zone = cfg.getConfig('timezonedb_zone')
 
 # no decoding availbale in pico/adfruit circuit python libraries
 def decode_pico(url):
@@ -39,6 +41,12 @@ def decode_pico(url):
     for dec in basic_decoding.keys():
         url = url.replace(dec, basic_decoding[dec])
     return url
+
+def get_local_offset():
+    timeurl = f'https://api.timezonedb.com/v2.1/get-time-zone?key={timezonedb_api_key}&format=json&by=zone&zone={timezonedb_zone}'
+    response = ssl_requests.get(timeurl)
+    data = json.loads(response.text)
+    return int(data['gmtOffset'])
 
 # creating a hostname for local server
 mdns_server = mdns.Server(wifi.radio)
@@ -147,6 +155,9 @@ def base(request: Request):
         "frequency": microcontroller.cpu.frequency,
     }
     return JSONResponse(request, data)
+
+#Get local time offset
+tz_offset = get_local_offset()
 
 # Start running the server
 server.start(str(wifi.radio.ipv4_address))
