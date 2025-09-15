@@ -1,6 +1,6 @@
 function fetchData(){
-    //fetch('./getdata')
-    fetch('http://rgb-matrix.local:5000/getdata')
+    fetch('./getdata')
+    //fetch('http://rgb-matrix.local:5000/getdata')
     .then(response => {
         return response.json();
     })

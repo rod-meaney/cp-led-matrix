@@ -6,7 +6,11 @@ function saved_files_load(parent_node){
 function saved_files_process(){
     el = document.getElementById('saved-files-select');
     file = el.value.replaceAll(' ', '_');
-    return './loadsaved?file={0}&type=saved'.replace('{0}',file);
+    
+    let req = {"name":"3LinesFile", "file":`${file}`}
+    const jsonString = JSON.stringify(req);
+    const encodedJsonString = encodeURIComponent(jsonString);
+    return "./loadjson?json=" + encodedJsonString;
 }
 
 function img_files_load(parent_node){    
@@ -17,7 +21,11 @@ function img_files_load(parent_node){
 function img_files_process(){
     el = document.getElementById('saved-images-select');
     file = el.value.replaceAll(' ', '_');
-    return './loadsaved?file={0}&type=img'.replace('{0}',file);
+    
+    let req = {"name":"Images", "file":`${file}`}
+    const jsonString = JSON.stringify(req);
+    const encodedJsonString = encodeURIComponent(jsonString);
+    return "./loadjson?json=" + encodedJsonString;
 }
 
 function animation_files_load(parent_node){
@@ -28,7 +36,11 @@ function animation_files_load(parent_node){
 function animation_files_process(){
     el = document.getElementById('saved-animation-select');
     file = el.value.replaceAll(' ', '_');
-    return './loadsaved?file={0}&type=animation'.replace('{0}',file);
+    
+    let req = {"name":"Animation", "directory":`${file}`}
+    const jsonString = JSON.stringify(req);
+    const encodedJsonString = encodeURIComponent(jsonString);
+    return "./loadjson?json=" + encodedJsonString;
 }
 
 function text_display_load(parent_node){
@@ -181,15 +193,18 @@ function word_punch_load(parent_node){
     component_color(prefix,parent_node);
     parent_node.appendChild(document.createElement("p"));
     component_text(prefix,label,parent_node);
+    parent_node.appendChild(document.createElement("p"));
+    component_speed(prefix,parent_node);
 }
 
 function word_punch_process(){
     const colour = document.getElementById('word-punch-color-select');
     const time = document.getElementById('word-punch-mins-select');
     const display_text = document.getElementById('word-punch-text-input');
+    const speed = document.getElementById('word-punch-speed-select');
     display_text.value = display_text.value.trim();
     if (display_text.value===''){throw "Please enter a sentence."}
-    let jsonobj = {"name":"WordPunch", "mins":time.value, "color":colour.value, "sentence":display_text.value, "sleep":0.005}
+    let jsonobj = {"name":"WordPunch", "mins":time.value, "color":colour.value, "sentence":display_text.value, "sleep":speed.value}
     const jsonString = JSON.stringify(jsonobj);
     const encodedJsonString = encodeURIComponent(jsonString);
     return "./loadjson?json=" + encodedJsonString;
@@ -206,6 +221,18 @@ function component_text(prefix, label, parent_node){
 function component_color(prefix, parent_node){
     component_select(prefix, "color", parent_node, Object.keys(fetched_data.colors), true);
     parent_node.appendChild(document.createTextNode('  colour'));
+}
+
+function component_speed(prefix, parent_node){
+    //sleep speeds
+    const optionsData = [
+        { value: 0.005, text: "Really fast" },
+        { value: 0.01, text: "Fast" },
+        { value: 0.05, text: "Slow" },
+        { value: 0.1, text: "Really Slow" }
+    ];
+    component_select(prefix, "speed", parent_node, optionsData, false);
+    parent_node.appendChild(document.createTextNode('  speed'));
 }
 
 function component_time(prefix, parent_node){

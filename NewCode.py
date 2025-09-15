@@ -1,18 +1,15 @@
 '''
 Web related imports
 '''
-import socketpool
 import os
+import socketpool
 import json
 import wifi
 import mdns
-import microcontroller
-import traceback
-from adafruit_httpserver import Request, Response, Server, JSONResponse, FileResponse
+from adafruit_httpserver import Request, Server, JSONResponse, FileResponse
 from adafruit_datetime import datetime, timedelta
 import adafruit_requests
 import ssl
-from utils.web import PMWeb
 
 '''
 Matrix related imports
@@ -20,7 +17,11 @@ Matrix related imports
 import adafruit_ntp
 import rtc
 
-from utils.matrix import PMMatrix
+from utils.LEDMatrix import LEDMatrixBasic
+from utils.WordPunch import WordPunch #inherits from LEDMatrix
+from utils.Animation import Animation #inherits from LEDMatrix
+from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
+from utils.Images import Images #inherits from LEDMatrix
 from utils.config import PMConfig
 import time
 
@@ -81,9 +82,16 @@ def base(request: Request):
     #Not sure why, but when using HOSTNAME index.js seemed not to work without this
     return FileResponse(request, "index.html")
 
-@server.route("/home")
+@server.route("/stop")
 def base(request: Request):
-    return Response(request, web.webpage(microcontroller.cpu.temperature), content_type="text/html")
+    dis.BlankScreen()
+    return JSONResponse(request, {})
+
+@server.route("/getcomponentdata")
+def base(request: Request):
+    if m_name == "Animation":
+        obj = Animation.get_data()
+    return JSONResponse(request, obj)
 
 @server.route("/getdata")
 def base(request: Request):
@@ -104,57 +112,24 @@ def base(request: Request):
     animations.sort()
     return JSONResponse(request, {"saved":saved, "images":images, "animations":animations, "colors":dis.colors, "cities":dis.cities})
 
-@server.route("/loadsaved")
-def base(request: Request):
-    ftype = request.query_params["type"]
-    file = request.query_params["file"]
-    if ftype == 'img':
-        dis.BlankScreen()
-        dis.ShowImage(f'img/{file}.bmp')
-    elif ftype == 'animation':
-        dis.NewMatrix({"name":"Animation", "mins":0, "directory": file})
-    else:
-        filename = f'./saved/{file}.json'
-        with open(filename, "r") as file:
-            data = json.load(file)
-        dis.NewMatrix(data)
-    return JSONResponse(request, {})
-
-@server.route("/stop")
-def base(request: Request):
-    dis.BlankScreen()
-    return JSONResponse(request, {})
-
-@server.route("/loadmsg")
-def base(request: Request):
-    text = request.query_params["text"]
-    color = request.query_params["color"]
-    mins = int(request.query_params["mins"])
-    dis.NewMatrix({"name":"CenteredText", "mins":mins, "distext": text.replace('%20', ' '), "color":color})
-    return JSONResponse(request, {})
-
 @server.route("/loadjson")
 def base(request: Request):
     jsonparam = request.query_params["json"]
-    decoded_json = decode_pico(jsonparam)
-    print(decoded_json)
-    dis.NewMatrix(json.loads(decoded_json))
+    decoded_json = json.loads(decode_pico(jsonparam))
+    m_name = decoded_json["name"]
+    global dis
+    if m_name == "WordPunch":
+        dis = WordPunch(tz_offset, requests, ssl_requests, decoded_json)
+    elif m_name == "Animation":
+        dis = Animation(tz_offset, requests, ssl_requests, decoded_json)
+    elif m_name == "ThreeLines":
+        dis = ThreeLines(tz_offset, requests, ssl_requests, decoded_json)
+    elif m_name == "3LinesFile":
+        saved_json = ThreeLines.load_from_file(decoded_json["file"])
+        dis = ThreeLines(tz_offset, requests, ssl_requests, saved_json)
+    elif m_name == "Images":
+        dis = Images(tz_offset, requests, ssl_requests, decoded_json)
     return JSONResponse(request, {})
-
-@server.route("/loadcity")
-def base(request: Request):
-    city = decode_pico(request.query_params["city"])
-    dis.NewMatrix({"name":"TwoLines", "mins":0,"top_line":{"type":"scroll", "color":"Blue", "text":"Local temperature", "data":{}},"bot_line":{"type":"weather", "color":"Blue", "data":{"city": city}}})
-    return JSONResponse(request, {})
-
-@server.route("/update")
-def base(request: Request):
-    print(request.query_params)
-    data = {
-        "temperature": microcontroller.cpu.temperature,
-        "frequency": microcontroller.cpu.frequency,
-    }
-    return JSONResponse(request, data)
 
 #Get local time offset
 tz_offset = get_local_offset()
@@ -165,18 +140,18 @@ server.start(str(wifi.radio.ipv4_address))
 '''
 Matrix related code
 '''
-dis = PMMatrix(tz_offset, requests, ssl_requests)
-dis.NewMatrix({"name":"CenteredText", "mins":5, "distext": f"address is http://{HOSTNAME}.local:5000", "color":"White"})
+dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, {"text":f"address is http://{HOSTNAME}.local:5000","color":"White"})
 
 while True:
+    server.poll()
+    dis.poll()
+''' 
     try:
         server.poll()
         dis.poll()
     except Exception as e:
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e}"
-        dis.CenteredText(error_message, "Red")
+        dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, {"text":error_message,"color":"Red"})
 '''
-    server.poll()
-    dis.poll()
-''' 
+
