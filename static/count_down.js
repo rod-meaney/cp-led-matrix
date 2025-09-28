@@ -1,6 +1,6 @@
 function count_down_load(parent_node){
-    let prefix = 'count-down';
-    let label = 'Minutes';
+    const prefix = 'count-down';
+    const label = 'Minutes';
     component_heading(parent_node, "h4", "Count Down");
     component_color(prefix,parent_node);
     parent_node.appendChild(document.createElement("p"));
