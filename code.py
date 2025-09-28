@@ -21,6 +21,7 @@ from utils.LEDMatrix import LEDMatrixBasic
 from utils.WordPunch import WordPunch #inherits from LEDMatrix
 from utils.Animation import Animation #inherits from LEDMatrix
 from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
+from utils.CountDown import CountDown #inherits from LEDMatrix
 from utils.Images import Images #inherits from LEDMatrix
 from utils.config import PMConfig
 import time
@@ -129,6 +130,8 @@ def base(request: Request):
         dis = ThreeLines(tz_offset, requests, ssl_requests, saved_json)
     elif m_name == "Images":
         dis = Images(tz_offset, requests, ssl_requests, decoded_json)
+    elif m_name == "CountDown":
+        dis = CountDown(tz_offset, requests, ssl_requests, decoded_json)
     return JSONResponse(request, {})
 
 #Get local time offset
@@ -143,9 +146,6 @@ Matrix related code
 dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, {"text":f"address is http://{HOSTNAME}.local:5000","color":"White"})
 
 while True:
-    server.poll()
-    dis.poll()
-''' 
     try:
         server.poll()
         dis.poll()
@@ -154,5 +154,10 @@ while True:
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e}"
         dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, {"text":error_message,"color":"Red"})
 '''
+    server.poll()
+    dis.poll()
+''' 
+
+
 
 

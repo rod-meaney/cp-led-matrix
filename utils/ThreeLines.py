@@ -117,5 +117,5 @@ class ThreeLines(LEDMatrix):
                 self.temperature_missed = ''
             except Exception as e:
                 self.temperature_missed = '*'
-            label.text = f'{abbrev}:{self.temperature}{self.temperature_missed}'
+            label.text = f'{abbrev}:{self.temperature}{self.temperature_missed}c'
             self.center_label(label)

@@ -31,8 +31,11 @@ function load_any(any){
 function send_any(any){
     document.getElementById("sysmsg").innerHTML='';
     try {
-        let url = window[any+"_process"]();
-        
+        let jsonobj = window[any+"_process"]();
+        const jsonString = JSON.stringify(jsonobj);
+        const encodedJsonString = encodeURIComponent(jsonString);
+        let url = "./loadjson?json=" + encodedJsonString;        
+
         //put the url in a box, select it so ut can be pasted
         document.getElementById('copy-url').innerHTML="";
         let copy = document.getElementById('copy-url');
