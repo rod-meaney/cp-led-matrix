@@ -5,6 +5,7 @@ Created on Jan 14, 2015
 '''
 from utils.LEDMatrix import LEDMatrix
 import adafruit_display_text.label
+from adafruit_display_shapes.rect import Rect
 import time, math
 import displayio
 import terminalio
@@ -18,19 +19,31 @@ class CountDown(LEDMatrix):
         super().__init__(tzOffset, requests, ssl_requests, json_data, piType)
             
     def run(self):
-        reamining_time = self.end_time - time.monotonic()
-        mins = math.floor(reamining_time/60)
-        secs = math.floor(reamining_time%60)
-        self.countdown.text = f'{mins}:{secs}'
-        self.display.refresh(minimum_frames_per_second=0)
+        if self.still_going:
+            remaining_time = self.end_time - time.monotonic()
+            hours = math.floor(remaining_time/3600)
+            remaining_mins = remaining_time - hours*3600
+            mins = math.floor(remaining_mins/60)
+            secs = math.floor(remaining_mins%60)
+            self.countdown.text = f'{hours:02}:{mins:02}:{secs:02}'
+            self.display.refresh(minimum_frames_per_second=0)
+            if hours == mins == secs == 0:
+                self.still_going = False
+        else:
+            for key in self.colors:
+                self.border.outline = self.colors[key]
+                self.display.refresh(minimum_frames_per_second=0)
+                time.sleep(0.5)
+            
         
     def load(self, json_data):
         #Initialise
-        self.countdown_heading = adafruit_display_text.label.Label(terminalio.FONT, text="mm:ss", x=0, y=10, color=0xFFFFFF)
+        self.still_going = True
+        self.countdown_heading = adafruit_display_text.label.Label(terminalio.FONT, text="hh:mm:ss", x=0, y=10, color=0xFFFFFF)
         self.countdown_heading.color = self.get_color(json_data["color"])
         self.center_label(self.countdown_heading)
         
-        self.countdown = adafruit_display_text.label.Label(terminalio.FONT, text="mm:ss", x=0, y=22, color=0xFFFFFF)
+        self.countdown = adafruit_display_text.label.Label(terminalio.FONT, text="hh:mm:ss", x=0, y=22, color=0xFFFFFF)
         self.countdown.color = self.get_color(json_data["color"])
         self.center_label(self.countdown)
         
@@ -40,5 +53,11 @@ class CountDown(LEDMatrix):
         g = displayio.Group()
         g.append(self.countdown_heading)
         g.append(self.countdown)
+        
+        #Add a border
+        BORDER_THICKNESS = 2  # Adjust as needed
+        self.border = Rect(x=0, y=0, width=self.display.width, height=self.display.height, outline=self.countdown.color, stroke=BORDER_THICKNESS)        
+        g.append(self.border)
+            
         self.display.root_group = g
 

@@ -50,6 +50,16 @@ def get_local_offset():
     data = json.loads(response.text)
     return int(data['gmtOffset'])
 
+def get_dir_list(directory):
+    contents = os.listdir(f'./{directory}')
+    ret = []
+    for item in contents:
+        #Bloody mac files
+        if item[0] != ".":
+            ret.append(item.split(".")[0].replace('_', ' '))
+    ret.sort()
+    return ret
+
 # creating a hostname for local server
 mdns_server = mdns.Server(wifi.radio)
 mdns_server.hostname = HOSTNAME
@@ -96,21 +106,9 @@ def base(request: Request):
 
 @server.route("/getdata")
 def base(request: Request):
-    contents = os.listdir('./saved')
-    saved = []
-    for item in contents:
-        saved.append(item.replace('.json', '').replace('_', ' '))
-    saved.sort()
-    contents = os.listdir('./img')
-    images = []
-    for item in contents:
-        images.append(item.replace('.bmp', '').replace('_', ' '))
-    images.sort()
-    contents = os.listdir('./animation')
-    animations = []
-    for item in contents:
-        animations.append(item.replace('_', ' '))
-    animations.sort()
+    saved = get_dir_list('saved')
+    images = get_dir_list('img')
+    animations = get_dir_list('animation')
     return JSONResponse(request, {"saved":saved, "images":images, "animations":animations, "colors":dis.colors, "cities":dis.cities})
 
 @server.route("/loadjson")
