@@ -1,6 +1,7 @@
 function fetchData(){
     fetch('./getdata')
     //fetch('http://rgb-matrix.local:5000/getdata')
+    //fetch('http://192.168.0.122:5000/getdata')
     .then(response => {
         return response.json();
     })
@@ -32,29 +33,33 @@ function send_any(any){
     document.getElementById("sysmsg").innerHTML='';
     try {
         let jsonobj = window[any+"_process"]();
-        const jsonString = JSON.stringify(jsonobj);
-        const encodedJsonString = encodeURIComponent(jsonString);
-        let url = "./loadjson?json=" + encodedJsonString;        
-
-        //put the url in a box, select it so ut can be pasted
-        document.getElementById('copy-url').innerHTML="";
-        let copy = document.getElementById('copy-url');
-        component_heading(copy,"h4","Url to copy");
-        const copyurl = document.createElement("textarea");
-        copyurl.rows = 5;
-        copyurl.cols = 35;
-        copyurl.id = 'copyurl';
-        copyurl.value = url.replace('./', location.href);
-        copy.appendChild(copyurl);
-        const myInput = document.getElementById('copyurl');
-        myInput.addEventListener('click', () => {
-            myInput.select();
-        });
-
+        let url = generate_url(jsonobj);
         send_to_rgb_matrix(url);
     } catch(err) {
         writemsg(err,false);
     }
+}
+
+function generate_url(jsonobj){
+    const jsonString = JSON.stringify(jsonobj);
+    const encodedJsonString = encodeURIComponent(jsonString);
+    let url = "./loadjson?json=" + encodedJsonString;        
+
+    //put the url in a box, select it so ut can be pasted
+    document.getElementById('copy-url').innerHTML="";
+    let copy = document.getElementById('copy-url');
+    component_heading(copy,"h4","Url to copy");
+    const copyurl = document.createElement("textarea");
+    copyurl.rows = 5;
+    copyurl.cols = 35;
+    copyurl.id = 'copyurl';
+    copyurl.value = url.replace('./', location.href);
+    copy.appendChild(copyurl);
+    const myInput = document.getElementById('copyurl');
+    myInput.addEventListener('click', () => {
+        myInput.select();
+    });
+    return url;
 }
 
 function send_to_rgb_matrix(url){

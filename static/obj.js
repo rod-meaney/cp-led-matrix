@@ -124,10 +124,17 @@ function component_radio_buttons(prefix, parent_node, value_label_arr, checked_v
     all_radios.forEach(radio => {
         radio.btn.onclick = function() { 
             component_radio_buttons_callback(all_radios, radio.btn, callback);
-        };        
+        };
         parent_node.appendChild(radio.btn);
         parent_node.appendChild(radio.lbl);
     });
+}
+
+function component_button(parent_node, label, onclick_fn){
+    let submit = document.createElement('button');
+    submit.textContent = label;
+    submit.addEventListener('click', onclick_fn);    
+    parent_node.appendChild(submit);
 }
 
 function component_heading(parent_node, h, text){
