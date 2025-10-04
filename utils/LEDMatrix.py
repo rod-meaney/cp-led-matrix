@@ -12,6 +12,7 @@ import board
 import terminalio
 import time
 import json
+import collections
 
 class LEDMatrix(object):
     '''
@@ -48,7 +49,8 @@ class LEDMatrix(object):
         
         self.requests = requests
         self.ssl_requests = ssl_requests
-        self.colors = {"Red":0xff0000, "Orange":0xFFA500, "Yellow":0xFFFF00, "Green":0x00FF00, "Blue":0x0000FF, "Indigo":0x4B0082, "Violet":0x7F00FF, "White":0xFFFFFF}
+        colour_list = {"Red":0xff0000, "Orange":0xFFA500, "Yellow":0xFFFF00, "Green":0x00FF00, "Blue":0x0000FF, "Brown":0xCC6600, "Jade":0x00A36C, "Grey":0x666699, "Indigo":0x4B0082, "Pink":0xff33cc, "Violet":0x7F00FF, "White":0xFFFFFF}
+        self.colors = collections.OrderedDict(sorted(colour_list.items()))
         
         #Default time to show current matrix 0 = forever
         self.mins = 0
@@ -78,6 +80,12 @@ class LEDMatrix(object):
         
     def center_label(self, label):
         label.x = (self.display.width // 2) - int(label.width // 2)
+
+    def center_label_left_side(self, label):
+        label.x = (self.display.width // 4) - int(label.width // 2)
+        
+    def center_label_right_side(self, label):
+        label.x = (self.display.width // 4)*3 - int(label.width // 2)
 
     def get_color(self, color):
         if(color in self.colors):

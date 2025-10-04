@@ -22,6 +22,7 @@ from utils.WordPunch import WordPunch #inherits from LEDMatrix
 from utils.Animation import Animation #inherits from LEDMatrix
 from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
 from utils.CountDown import CountDown #inherits from LEDMatrix
+from utils.Score import Score #inherits from LEDMatrix
 from utils.Images import Images #inherits from LEDMatrix
 from utils.config import PMConfig
 import time
@@ -98,12 +99,7 @@ def base(request: Request):
     dis.BlankScreen()
     return JSONResponse(request, {})
 
-@server.route("/getcomponentdata")
-def base(request: Request):
-    if m_name == "Animation":
-        obj = Animation.get_data()
-    return JSONResponse(request, obj)
-
+#at some point load data from datat directory into memory for /getdata to send when needed
 @server.route("/getdata")
 def base(request: Request):
     saved = get_dir_list('saved')
@@ -130,6 +126,11 @@ def base(request: Request):
         dis = Images(tz_offset, requests, ssl_requests, decoded_json)
     elif m_name == "CountDown":
         dis = CountDown(tz_offset, requests, ssl_requests, decoded_json)
+    elif m_name == "Score":
+        if decoded_json["mode"] == 'load':
+            dis = Score(tz_offset, requests, ssl_requests, decoded_json)
+        else:
+            dis.update(decoded_json)
     return JSONResponse(request, {})
 
 #Get local time offset
@@ -151,10 +152,11 @@ while True:
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e}"
         dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, {"text":error_message,"color":"Red"})
-'''
+''' 
     server.poll()
     dis.poll()
-''' 
+'''
+
 
 
 
