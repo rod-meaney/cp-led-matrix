@@ -78,7 +78,8 @@ class ThreeLines(LEDMatrix):
         
         if ((math.ceil(time.monotonic() - self.last_tram_check) % check_every)== 0) or self.initialise:
             self.last_tram_check = time.monotonic()
-            response = self.requests.get(TramUrl)
+            time.sleep(self.sleep) #recommended to pause before sending requests from pico
+            response = self.requests.get(TramUrl, timeout=2)
             data = json.loads(response.text)
             next_trams = []
             next_tram_min = 1000 # just a large number which willbe greater than any next tram time
@@ -111,7 +112,8 @@ class ThreeLines(LEDMatrix):
         if ((math.ceil(time.monotonic() - self.last_weather_check) % check_every)== 0) or self.initialise:
             self.last_weather_check = time.monotonic()
             try:
-                response = self.ssl_requests.get(weatherurl)
+                time.sleep(self.sleep) #recommended to pause before sending requests from pico
+                response = self.ssl_requests.get(weatherurl, timeout=2)
                 data = json.loads(response.text)
                 self.temperature = str(data['current']['temperature_2m'])
                 self.temperature_missed = ''
