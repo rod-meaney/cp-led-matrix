@@ -154,4 +154,17 @@ class LEDMatrixBasic(LEDMatrix):
     def run(self):
         self.scroll_label(self.label)
         self.display.refresh(minimum_frames_per_second=0)
+        
+class LEDMatrixStop(LEDMatrix):
+    '''
+    standard starts with a blank screen, so nothing to do
+    '''
+
+    def __init__(self, tzOffset, requests, ssl_requests, json_data, piType="pico"):
+        super().__init__(tzOffset, requests, ssl_requests, json_data, piType)
     
+    def load(self,json_data):
+        pass
+        
+    def run(self):
+        pass
