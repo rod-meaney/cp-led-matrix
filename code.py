@@ -17,7 +17,7 @@ Matrix related imports
 import adafruit_ntp
 import rtc
 
-from utils.LEDMatrix import LEDMatrixBasic
+from utils.LEDMatrix import LEDMatrixBasic, LEDMatrixStop
 from utils.WordPunch import WordPunch #inherits from LEDMatrix
 from utils.Animation import Animation #inherits from LEDMatrix
 from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
@@ -96,7 +96,7 @@ def base(request: Request):
 
 @server.route("/stop")
 def base(request: Request):
-    dis.BlankScreen()
+    dis = LEDMatrixStop(tz_offset, requests, ssl_requests, {})
     return JSONResponse(request, {})
 
 #at some point load data from datat directory into memory for /getdata to send when needed
