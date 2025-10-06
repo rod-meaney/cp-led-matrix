@@ -12,8 +12,8 @@ class Animation(LEDMatrix):
     Helper functions for the project
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, json_data, piType)
+    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
             
     def run(self):
         self.ShowImageBitmapLoaded(self.animations[self.current_animation_index])

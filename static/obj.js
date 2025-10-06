@@ -40,7 +40,7 @@ function component_text(prefix, label, parent_node){
 }
 
 function component_color(prefix, parent_node){
-    component_select(prefix, "color", parent_node, Object.keys(fetched_data.colors), true);
+    component_select(prefix, "color", parent_node, Object.keys(fetched_data.colors).toSorted(), true);
     parent_node.appendChild(document.createTextNode('  colour'));
 }
 

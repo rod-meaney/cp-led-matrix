@@ -12,14 +12,13 @@ import board
 import terminalio
 import time
 import json
-import collections
 
 class LEDMatrix(object):
     '''
     Nothing but the simplest base functions
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, json_data, piType="pico"):
+    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
         displayio.release_displays()
         #Set up the board
         if piType == "pico":
@@ -49,18 +48,15 @@ class LEDMatrix(object):
         
         self.requests = requests
         self.ssl_requests = ssl_requests
-        colour_list = {"Red":0xff0000, "Orange":0xFFA500, "Yellow":0xFFFF00, "Green":0x00FF00, "Blue":0x0000FF, "Brown":0xCC6600, "Jade":0x00A36C, "Grey":0x666699, "Indigo":0x4B0082, "Pink":0xff33cc, "Violet":0x7F00FF, "White":0xFFFFFF}
-        self.colors = collections.OrderedDict(sorted(colour_list.items()))
         
         #Default time to show current matrix 0 = forever
         self.mins = 0
         if "mins" in json_data:
             self.mins = int(json_data["mins"])
         self.on = True
-        
-        #Remove later
-        with open('./data/cities.json', "r") as file:
-            self.cities = json.load(file)  
+
+        #Set the data for any of the classes to use as necessary
+        self.data = data
 
         #Set the start screen as blank
         self.BlankScreen()
@@ -88,10 +84,10 @@ class LEDMatrix(object):
         label.x = (self.display.width // 4)*3 - int(label.width // 2)
 
     def get_color(self, color):
-        if(color in self.colors):
-            return self.colors[color]
+        if(color in self.data["colors"]):
+            return bytes.fromhex(self.data["colors"][color])
         else:
-            return self.colors["Red"]
+            return bytes.fromhex(self.data["colors"]["Red"])
     
     def scroll_label(self, label):
         label.x  = label.x -1
@@ -142,8 +138,8 @@ class LEDMatrixBasic(LEDMatrix):
     Helper functions for the project
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, json_data, piType)
+    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
     
     def load(self,json_data):
         self.label = adafruit_display_text.label.Label(terminalio.FONT, text=json_data["text"], color=self.get_color(json_data["color"]), x=0, y=12)
@@ -160,11 +156,12 @@ class LEDMatrixStop(LEDMatrix):
     standard starts with a blank screen, so nothing to do
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, json_data, piType)
+    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
     
     def load(self,json_data):
         pass
         
     def run(self):
         pass
+    

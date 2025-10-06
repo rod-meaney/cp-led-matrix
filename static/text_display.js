@@ -108,7 +108,7 @@ function text_display_time_load(prefix, parent_node){
 
 function text_display_weather_load(prefix, parent_node){
     parent_node.appendChild(document.createElement("p"));
-    component_select(prefix, "city", parent_node, Object.keys(fetched_data.cities), true);
+    component_select(prefix, "city", parent_node, Object.keys(fetched_data.cities).toSorted(), true);
     parent_node.appendChild(document.createElement("p"));
     component_color(prefix,parent_node);
 }

@@ -3,6 +3,8 @@ Created on Jan 14, 2015
 
 @author: roderickmeaney
 '''
+import os
+import json
 class PMConfig(object):
     '''
     Helper functions for the project
@@ -26,3 +28,26 @@ class PMConfig(object):
         return configuration item based on key
         '''
         return self.items[config_item]
+    
+    def get_dir_list(self, directory):
+        contents = os.listdir(f'./{directory}')
+        ret = []
+        for item in contents:
+            #Bloody mac files
+            if item[0] != ".":
+                ret.append(item.split(".")[0].replace('_', ' '))
+        ret.sort()
+        return ret
+    
+    def get_all_matrix_config(self):
+        saved = self.get_dir_list('saved')
+        images = self.get_dir_list('img')
+        animations = self.get_dir_list('animation')
+        data = {"saved":saved, "images":images, "animations":animations}
+        contents = os.listdir(f'./data')
+        for item in contents:
+            #Bloody mac files
+            if item[0] != ".":
+                with open(f'./data/{item}', "r") as file:
+                    data[item.split(".")[0]] = json.load(file)
+        return data        

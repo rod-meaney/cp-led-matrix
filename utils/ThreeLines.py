@@ -5,6 +5,7 @@ Created on Jan 14, 2015
 '''
 from utils.LEDMatrix import LEDMatrix
 import adafruit_display_text.label
+from adafruit_bitmap_font import bitmap_font
 import displayio
 import terminalio
 import time, math, json
@@ -14,8 +15,8 @@ class ThreeLines(LEDMatrix):
     Helper functions for the project
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, json_data, piType)
+    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
             
     def run(self):
         for label in self.labels:
@@ -51,8 +52,11 @@ class ThreeLines(LEDMatrix):
             ys = [6,16,26]
         
         i=0
+        font_path = "/fonts/font.pcf"
+        small_font = bitmap_font.load_font(font_path)
         for line in json_data["lines"]:
             new_line = adafruit_display_text.label.Label(terminalio.FONT, text="loading", color=0xFFFFFF, x = 0, y = ys[i])
+            #new_line = adafruit_display_text.label.Label(small_font, text="loading", color=0xFFFFFF, x = 0, y = ys[i])
             if "color" in line:
                 new_line.color = self.get_color(line["color"])
             if "text" in line:
@@ -105,9 +109,9 @@ class ThreeLines(LEDMatrix):
             
     def weather_label(self, label, city):
         check_every = 300 #5 minutes
-        latitude = self.cities[city]['latitude']
-        longitude = self.cities[city]['longitude']
-        abbrev = self.cities[city]['abbrev']
+        latitude = self.data["cities"][city]['latitude']
+        longitude = self.data["cities"][city]['longitude']
+        abbrev = self.data["cities"][city]['abbrev']
         weatherurl =f'https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,cloud_cover,rain,precipitation,wind_speed_10m,showers,apparent_temperature'
         if ((math.ceil(time.monotonic() - self.last_weather_check) % check_every)== 0) or self.initialise:
             self.last_weather_check = time.monotonic()
