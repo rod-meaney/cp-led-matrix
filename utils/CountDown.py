@@ -30,8 +30,8 @@ class CountDown(LEDMatrix):
             if hours == mins == secs == 0:
                 self.still_going = False
         else:
-            for key in self.colors:
-                self.border.outline = self.colors[key]
+            for key in self.data["colors"]:
+                self.border.outline = self.get_color(key)
                 self.display.refresh(minimum_frames_per_second=0)
                 time.sleep(0.5)
             

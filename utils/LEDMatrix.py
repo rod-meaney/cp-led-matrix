@@ -84,10 +84,10 @@ class LEDMatrix(object):
         label.x = (self.display.width // 4)*3 - int(label.width // 2)
 
     def get_color(self, color):
-        if(color in self.data["colors"]):
+        try:
             return bytes.fromhex(self.data["colors"][color])
-        else:
-            return bytes.fromhex(self.data["colors"]["Red"])
+        except Exception as e:
+            return bytes.fromhex('ff0000') #RED
     
     def scroll_label(self, label):
         label.x  = label.x -1
