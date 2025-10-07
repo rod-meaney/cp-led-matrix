@@ -8,3 +8,7 @@ Circuit Python Libraries to install
 * adafruit_requests (-> adafruit-circuitpython-requests)
 * adafruit__ntp (-> adafruit-circuitpython-ntp)
 * adafruit_display_text (-> adafruit-circuitpython-display-text)
+* adafruit_display_shapes (-> adafruit-circuitpython-display-shapes)
+
+Fonts
+Download from https://github.com/adafruit/circuitpython-fonts/releases
