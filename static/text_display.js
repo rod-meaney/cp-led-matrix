@@ -78,7 +78,7 @@ function text_display_update_lines(selected_value){
 }
 
 function text_display_line_load(prefix,parent_node,lines){
-    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling","Weather"];
+    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling"]; //Weather is temporarily removed - it is causing issues
     for (let i = 1; i <= lines; i++) {
         component_heading(parent_node, "h5", "Line "+i);
         component_select(prefix, "line-"+i, parent_node, line_options, true, text_display_choice_load);

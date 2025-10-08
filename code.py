@@ -144,7 +144,6 @@ def base(request: Request):
 '''
 ==== RUNNING ====
 '''
-
 while True:
     try:
         server.poll()
@@ -152,7 +151,8 @@ while True:
     except Exception as e:
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - TRY ANOTHER FUNCTION, or RESTART DEVICE"
-        dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})
+        dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})      
+
 ''' 
     server.poll()
     dis.poll()
