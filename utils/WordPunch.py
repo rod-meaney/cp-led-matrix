@@ -34,6 +34,8 @@ class WordPunch(LEDMatrix):
         #Initialise
         self.wordpunch_label = adafruit_display_text.label.Label(terminalio.FONT, text="", color=0xFFFFFF)
         self.wordpunch_label.color = self.get_color(json_data["color"])
+        if json_data["big"] == True:
+            self.wordpunch_label.scale = 2 
         self.wordpunch = json_data["sentence"].split()
         self.sleep = float(json_data["sleep"])
         
