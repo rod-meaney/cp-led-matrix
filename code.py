@@ -6,9 +6,10 @@ import mdns
 import time
 import ssl
 import rtc
+import gc
 
 #Added through Package Manager
-from adafruit_httpserver import Request, Server, JSONResponse, FileResponse
+from adafruit_httpserver import Request, Server, JSONResponse, FileResponse, MIMETypes
 from adafruit_datetime import datetime, timedelta
 import adafruit_requests
 import adafruit_ntp
@@ -41,7 +42,7 @@ def get_local_offset():
     return int(data['gmtOffset'])
 
 '''
-==== STARUP ====
+==== STARTUP ====
 '''
 try: 
     cfg = PMConfig('cfg')
@@ -78,7 +79,7 @@ try:
     Local server and API related code
     '''
     # Set up http server (I have index.html in there)
-    server = Server(pool, "/static", debug=True)
+    server = Server(pool, "/static", debug=False)
     server.headers = {"Access-Control-Allow-Origin": "*",}
 
     #Get local time offset
@@ -101,13 +102,17 @@ except Exception as e:
 '''
 ==== HTTP SERVER ====
 '''
+MIMETypes.configure(
+    default_to="text/plain",
+    # Unregistering unnecessary MIME types can save memory
+    keep_for=[".html", ".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".ico"],
+    # If you need to, you can add additional MIME types
+    register={".foo": "text/foo", ".bar": "text/bar"},
+)
 
-@server.route("/")
-def base(request: Request):
-    #Not sure why, but when using HOSTNAME index.js seemed not to work without this
-    return FileResponse(request, "index.html")
+# You don't have to add any routes for servicng files from /static, by default the server will serve files
+# and it appears it serves index.html by default
 
-#at some point load data from datat directory into memory for /getdata to send when needed
 @server.route("/getdata")
 def base(request: Request):
     return JSONResponse(request, data)
@@ -147,8 +152,15 @@ def base(request: Request):
 while True:
     try:
         server.poll()
+    except Exception as e:
+        # We have occaisionally seen issues with the poll throwing errors for no reason, adding this in to see if
+        # it syabailses things
+        gc.collect()
+
+    try:
         dis.poll()
     except Exception as e:
+        # This will be errors with designed functionality
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - TRY ANOTHER FUNCTION, or RESTART DEVICE"
         dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})      
