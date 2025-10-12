@@ -14,14 +14,14 @@ I really had the following ambitions with this project
 
 ## What you need to buy / may have on hand
 I have zero affiliation with the company I am going to use for referecne, but my dealing with them have always been really good.
-* [Raspberry Pi Pico 2WH (Wireless WiFi, with Headers)](https://core-electronics.com.au/raspberry-pi-pico-2-wh-with-headers.html){:target="_blank"}
-* [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html){:target="_blank"}
+* [Raspberry Pi Pico 2WH (Wireless WiFi, with Headers)](https://core-electronics.com.au/raspberry-pi-pico-2-wh-with-headers.html)
+* [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html)
   - The above comes with all the cables required for powering and hooking up the Pico to the LED Matrix so you can drive it
-* [5V DC 4A Fixed 2.1mm Tip Appliance Plugpack](https://core-electronics.com.au/5v-dc-4a-fixed-2-1mm-tip-appliance-plugpack-47354.html){:target="_blank"}
-* [DC Barrel Jack Adapter - Female](https://core-electronics.com.au/dc-barrel-jack-adapter-female-7392.html){:target="_blank"}
+* [5V DC 4A Fixed 2.1mm Tip Appliance Plugpack](https://core-electronics.com.au/5v-dc-4a-fixed-2-1mm-tip-appliance-plugpack-47354.html)
+* [DC Barrel Jack Adapter - Female](https://core-electronics.com.au/dc-barrel-jack-adapter-female-7392.html)
 
 ### Other bits and piece / Tools
-* [Jumper Wire 10cm Ribbon (F/F)](https://core-electronics.com.au/female-to-female-dupont-line-40-pin-10cm-24awg.html){:target="_blank"}
+* [Jumper Wire 10cm Ribbon (F/F)](https://core-electronics.com.au/female-to-female-dupont-line-40-pin-10cm-24awg.html)
   - I ended up powering the Pico off the cables leading into the matrix, and I basically cut these up to connect to the Pico. This can be done in a WIDE variety of ways.
 * Micro USB cable. One of the thousands you have left over from years of non-standard powering of device. This is for plugging into you Pico to load the code / Test
 > [!TIP]
@@ -33,6 +33,19 @@ We basically need to do the following
 2. Build our LED matrix display
 3. Load the code onto the Pico and configure for your local network
 
+## Get the Pico set up and ready to code on
+### Start coding on the device and get used to writing code
+Google for "getting started raspberry pi pico". Follow the bouncing ball on a tutrial like [Getting started with Raspberry Pi Pico](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico) which
+* Got me to install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
+* Using Thonny to code on the device
+
+### Install CircuitPython and depnedencies
+You are going to delete all you have done on the Pico up until now and install CricuitPython
+* I basically followed [Installing CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython)
+* Use the package manager to install other libraries that this code requires (see below)
+> [!NOTE]
+> It did not always work exaclty as described in the tutorials, but was obvious with a bit of tinkering
+
 Circuit Python Libraries to install
 * adafruit_httpserver (searching package manager in Thony, search for -> adafruit-circuitpython-httpserver)
 * adafruit_hashlib (required on Adafruit Matrix Portal M4, not Pico -> adafruit-circuitpython-hashlib)
@@ -42,5 +55,6 @@ Circuit Python Libraries to install
 * adafruit_display_text (-> adafruit-circuitpython-display-text)
 * adafruit_display_shapes (-> adafruit-circuitpython-display-shapes)
 
-Fonts
-Download from https://github.com/adafruit/circuitpython-fonts/releases
+Fonts - Not implemented, small fonts were not much good. But I have left this link in for later reference -> Download from https://github.com/adafruit/circuitpython-fonts/releases
+
+### Build our LED matrix display

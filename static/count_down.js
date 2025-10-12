@@ -5,6 +5,12 @@ function count_down_load(parent_node){
     component_color(prefix,parent_node);
     parent_node.appendChild(document.createElement("p"));
     component_text(prefix,label,parent_node);
+    parent_node.appendChild(document.createElement("p"));
+    component_button(parent_node, "pause", pause_countdown);
+}
+
+function pause_countdown(){
+    send_to_rgb_matrix(generate_url({"name":"CountDown", "mode":"pause"}));
 }
 
 function count_down_process(){
@@ -13,5 +19,5 @@ function count_down_process(){
     display_text.value = display_text.value.trim();
     mins_to_countdown = parseInt(display_text.value);
     if (display_text.value==='' || !Number.isInteger(mins_to_countdown)){throw "You must enter a whole number"}
-    return {"name":"CountDown", "mins":0, "color":colour.value, "mins_to_countdown":mins_to_countdown}
+    return {"name":"CountDown", "mode":"load", "mins":0, "color":colour.value, "mins_to_countdown":mins_to_countdown}
 }

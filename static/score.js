@@ -51,8 +51,6 @@ function score_process(){
     competition.value = competition.value.trim();
     team1.value = team1.value.trim();
     team2.value = team2.value.trim();
-    if (team1.value.length == 0 || team1.value.length > 3) {throw "Team 1 must be between 1 and 3 characters"}
-    if (team2.value.length == 0 || team2.value.length > 3) {throw "Team 2 must be between 1 and 3 characters"}
     
     return {"name":"Score", "mins":0, "mode":"load", "color":colour.value, "competition":competition.value, "team1":team1.value, "team1_color":team1_color.value,"team1_score":team1_score.value, "team2":team2.value, "team2_color":team2_color.value,"team2_score":team2_score.value}
 }

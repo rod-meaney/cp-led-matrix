@@ -137,7 +137,10 @@ def base(request: Request):
     elif m_name == "Images":
         dis = Images(tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "CountDown":
-        dis = CountDown(tz_offset, requests, ssl_requests, data, decoded_json)
+        if decoded_json["mode"] == 'load':
+            dis = CountDown(tz_offset, requests, ssl_requests, data, decoded_json)
+        else:
+            dis.update(decoded_json)            
     elif m_name == "Score":
         if decoded_json["mode"] == 'load':
             dis = Score(tz_offset, requests, ssl_requests, data, decoded_json)
@@ -149,6 +152,7 @@ def base(request: Request):
 '''
 ==== RUNNING ====
 '''
+
 while True:
     try:
         server.poll()
@@ -164,8 +168,8 @@ while True:
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - TRY ANOTHER FUNCTION, or RESTART DEVICE"
         dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})      
-
 ''' 
     server.poll()
     dis.poll()
-'''
+''' 
+
