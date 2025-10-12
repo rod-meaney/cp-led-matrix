@@ -58,8 +58,8 @@ Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
 Fonts - Not implemented, small fonts were not much good. But I have left this link in for later reference -> Download from https://github.com/adafruit/circuitpython-fonts/releases
 
 ### Build our LED matrix display
-See the Pin diagram to see pico pins
-[Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
+See the Pin diagram to see pico pins -> [Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
+![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
 
 And use this table connect the wires to the correct Pico Pins
 #### Mapping of wires to GPIO's / Pins
