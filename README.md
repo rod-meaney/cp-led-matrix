@@ -39,14 +39,14 @@ Google for "getting started raspberry pi pico". Follow the bouncing ball on a tu
 * Got me to install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
 * Using Thonny to code on the device
 
-### Install CircuitPython and depnedencies
+### Install CircuitPython and dependencies
 You are going to delete all you have done on the Pico up until now and install CricuitPython
 * I basically followed [Installing CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython)
 * Use the package manager to install other libraries that this code requires (see below)
 > [!NOTE]
 > It did not always work exaclty as described in the tutorials, but was obvious with a bit of tinkering
 
-Circuit Python Libraries to install
+Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
 * adafruit_httpserver (searching package manager in Thony, search for -> adafruit-circuitpython-httpserver)
 * adafruit_hashlib (required on Adafruit Matrix Portal M4, not Pico -> adafruit-circuitpython-hashlib)
 * adafruit_datetime (-> adafruit-circuitpython-datetime)
@@ -58,3 +58,6 @@ Circuit Python Libraries to install
 Fonts - Not implemented, small fonts were not much good. But I have left this link in for later reference -> Download from https://github.com/adafruit/circuitpython-fonts/releases
 
 ### Build our LED matrix display
+
+
+![Image of the LED Matrix put together](/README/img1.jfif)
