@@ -59,5 +59,28 @@ Fonts - Not implemented, small fonts were not much good. But I have left this li
 
 ### Build our LED matrix display
 
+#### Mapping of wires to GPIO's / Pins
+```
+| Function          | Wire   | GPIO Pin | Pico Pin |
+|-------------------|--------|----------|----------|
+| High R data       | Blue   | GP0      | 1        |
+| High G data       | Green  | GP1      | 2        |
+| High B data       | Yellow | GP2      | 4        |
+| GND               | Orange | GND      | 3        |
+| Low R data        | Red    | GP3      | 5        |
+| Low G data        | Brown  | GP4      | 6        |
+| Low B data        | Black  | GP5      | 7        |
+| GND               | White  | GND      | 8        |
+| A line selection  | Grey   | GP6      | 9        |
+| B line selection  | Purple | GP7      | 10       |
+| C line selection  | Blue   | GP8      | 11       |
+| D line selection  | Green  | GP9      | 12       |
+| E line selection  |        |          |          |
+| CLOCK             | Yellow | GP10     | 14       |
+| LATCH             | Orange | GP11     | 15       |
+| Output Enable     | Red    | GP12     | 16       |
+| GND               | Brown  | GND      | 18       |
+```
+
 
 ![Image of the LED Matrix put together](/README/img1.jfif)
