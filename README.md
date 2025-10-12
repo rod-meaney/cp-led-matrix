@@ -29,14 +29,14 @@ I have zero affiliation with the company I am going to use for referecne, but my
 
 ## The build
 We basically need to do the following
-1. Get the Pico set up and ready to code on
-2. Build our LED matrix display
+1. Get the Pico set up and ready to code on 
+2. Build our LED matrix display 
 3. Load the code onto the Pico and configure for your local network
 
 ## Get the Pico set up and ready to code on
 ### Start coding on the device and get used to writing code
-Google for "getting started raspberry pi pico". Follow the bouncing ball on a tutrial like [Getting started with Raspberry Pi Pico](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico) which
-* Got me to install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
+Google _getting started raspberry pi pico_. Follow the bouncing ball on a tutorial like [Getting started with Raspberry Pi Pico](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico) which
+* Install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
 * Using Thonny to code on the device
 
 ### Install CircuitPython and dependencies
@@ -58,7 +58,10 @@ Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
 Fonts - Not implemented, small fonts were not much good. But I have left this link in for later reference -> Download from https://github.com/adafruit/circuitpython-fonts/releases
 
 ### Build our LED matrix display
+See the Pin diagram to see pico pins
+[Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
 
+And use this table connect the wires to the correct Pico Pins
 #### Mapping of wires to GPIO's / Pins
 ```
 | Function          | Wire   | GPIO Pin | Pico Pin |
