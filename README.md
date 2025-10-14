@@ -8,7 +8,7 @@ Previously (10 years ago!) I had written [LED Matrix. Use your old Model A Raspb
 I really had the following ambitions with this project
 * Simple to build - extremly low entry to achive maximum results
 * First and foremost - provide the ability to see the next three Trams coming at the end of my street (totally Melboure/Australia based). This deeply effects my family in the morning and its usefullness is the only reason I am allowed a LED matrix in the living/dining area's in the house.
-  - The trams run on raods and have real time updates and one can be coming in 15 minutes, then 3 minutes later it is due in 5 minutes - it is traffic dependant.
+  - The trams run on roads and have real time updates and one can be coming in 15 minutes, then 3 minutes later it is due in 5 minutes - it is traffic dependant.
 * Make it easy to integrate with phone widgets - quick and easy to turn it on/off
 * Make it easy to add new functionality
 
@@ -24,7 +24,7 @@ I have zero affiliation with the company I am going to use for referecne, but my
     - 4a IDC to XH2.54 - from LED matrix to Pico GPIO Pins
     - 4b Power Supply Cable
 5. Micro USB cable and power (phone charger more than enough)
-6. Write Strippers
+6. Wire Strippers
 
 > [!TIP]
 > Check and recheck that the micro USB cable does data AND power. Some only do power. My first couple of weeks playing was spent telling Core-Electronics that they had sent me faulty devices. Turns out all 3 cables I tested with did not do data! They were very understanding.
@@ -32,8 +32,8 @@ I have zero affiliation with the company I am going to use for referecne, but my
 ## The build
 We basically need to do the following
 1. Get the Pico set up and ready to code on 
-2. Build our LED matrix display 
-3. Load the code onto the Pico and configure for your local network
+2. Install CircuitPython and dependencies
+3. Build our LED matrix display 
 
 ## Get the Pico set up and ready to code on
 ### Start coding on the device and get used to writing code
@@ -41,7 +41,7 @@ Google _getting started raspberry pi pico_. Follow the bouncing ball on a tutori
 * Install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
 * Using Thonny to code on the device
 
-### Install CircuitPython and dependencies
+## Install CircuitPython and dependencies
 You are going to delete all you have done on the Pico up until now and install CricuitPython
 * I basically followed [Installing CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython)
 * Use the package manager to install other libraries that this code requires (see below)
