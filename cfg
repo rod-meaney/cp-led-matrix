@@ -1,4 +1,4 @@
-timezonedb_api_key=<see https://open-meteo.com/ - though have removed as it seems to compromise system stability>
+timezonedb_api_key=<see https://timezonedb.com/ to register and get a key>
 timezonedb_zone=Australia/Melbourne
 WIFI_SSID=<add your own>
 WIFI_PASSWORD=<add your own>

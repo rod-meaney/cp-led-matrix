@@ -52,8 +52,9 @@ class ThreeLines(LEDMatrix):
             ys = [6,16,26]
         
         i=0
-        font_path = "/fonts/font.pcf"
-        small_font = bitmap_font.load_font(font_path)
+        
+        #font_path = "/fonts/font.pcf"
+        #small_font = bitmap_font.load_font(font_path)
         for line in json_data["lines"]:
             new_line = adafruit_display_text.label.Label(terminalio.FONT, text="loading", color=0xFFFFFF, x = 0, y = ys[i])
             #new_line = adafruit_display_text.label.Label(small_font, text="loading", color=0xFFFFFF, x = 0, y = ys[i])

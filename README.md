@@ -13,19 +13,21 @@ I really had the following ambitions with this project
 * Make it easy to add new functionality
 
 ## What you need to buy / may have on hand
-I have zero affiliation with the company I am going to use for referecne, but my dealing with them have always been really good.
-* [Raspberry Pi Pico 2WH (Wireless WiFi, with Headers)](https://core-electronics.com.au/raspberry-pi-pico-2-wh-with-headers.html)
-* [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html)
-  - The above comes with all the cables required for powering and hooking up the Pico to the LED Matrix so you can drive it
-* [5V DC 4A Fixed 2.1mm Tip Appliance Plugpack](https://core-electronics.com.au/5v-dc-4a-fixed-2-1mm-tip-appliance-plugpack-47354.html)
-* [DC Barrel Jack Adapter - Female](https://core-electronics.com.au/dc-barrel-jack-adapter-female-7392.html)
 
-### Other bits and piece / Tools
-* [Jumper Wire 10cm Ribbon (F/F)](https://core-electronics.com.au/female-to-female-dupont-line-40-pin-10cm-24awg.html)
-  - I ended up powering the Pico off the cables leading into the matrix, and I basically cut these up to connect to the Pico. This can be done in a WIDE variety of ways.
-* Micro USB cable. One of the thousands you have left over from years of non-standard powering of device. This is for plugging into you Pico to load the code / Test
+![Image of the LED Matrix put together](/README/LED_Matrix_Bits_sm.jpg)
+
+I have zero affiliation with the company I am going to use for referecne, but my dealing with them have always been really good.
+1. [Raspberry Pi Pico 2WH (Wireless WiFi, with Headers)](https://core-electronics.com.au/raspberry-pi-pico-2-wh-with-headers.html)
+2. [5V DC 4A Fixed 2.1mm Tip Appliance Plugpack](https://core-electronics.com.au/5v-dc-4a-fixed-2-1mm-tip-appliance-plugpack-47354.html)
+3. [DC Barrel Jack Adapter - Female](https://core-electronics.com.au/dc-barrel-jack-adapter-female-7392.html)
+4. [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) - this includes
+    - 4a IDC to XH2.54 - from LED matrix to Pico GPIO Pins
+    - 4b Power Supply Cable
+5. Micro USB cable and power (phone charger more than enough)
+6. Write Strippers
+
 > [!TIP]
-> Check and recheck that the cable does data AND power. Some only do power. My first couple of weeks playing was spent telling Core-Electronics that they had sent me faulty devices. Turns out all 3 cables I tested with did not do data!
+> Check and recheck that the micro USB cable does data AND power. Some only do power. My first couple of weeks playing was spent telling Core-Electronics that they had sent me faulty devices. Turns out all 3 cables I tested with did not do data! They were very understanding.
 
 ## The build
 We basically need to do the following
@@ -55,14 +57,26 @@ Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
 * adafruit_display_text (-> adafruit-circuitpython-display-text)
 * adafruit_display_shapes (-> adafruit-circuitpython-display-shapes)
 
-Fonts - Not implemented, small fonts were not much good. But I have left this link in for later reference -> Download from https://github.com/adafruit/circuitpython-fonts/releases
+From this Repository
+* Copy across Code.py and cfg
+* Update cfg with your local wirelss name and password
+* Copy across directories -> animation, data, img, saved, static, utils
+
+You should now be able to run code.py, and be able to go to the 'website', the address will be in the Thonny IDE. but it won't do much until we hook up our LED Matrix
+
+> [!NOTE]
+> If you change the line in code.py to debug=True you will be able to see opening the website and any requests you make in the Thonny IDE.
+
+```
+    server = Server(pool, "/static", debug=False)
+```
 
 ### Build our LED matrix display
-See the Pin diagram to see pico pins -> [Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
+Have a look at the picture above, it gives you a pretty good idea of where we are going.
+
+1. Start with connecting the IDC ribbons pins to the Pico. Using the Pico diagram and the table below. (Disconnect it from the Micro USB to do this)
 ![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
 
-And use this table connect the wires to the correct Pico Pins
-#### Mapping of wires to GPIO's / Pins
 ```
 | Function          | Wire   | GPIO Pin | Pico Pin |
 |-------------------|--------|----------|----------|
@@ -85,5 +99,18 @@ And use this table connect the wires to the correct Pico Pins
 | GND               | Brown  | GND      | 18       |
 ```
 
+2. Connect the other end of the IDC to the Matrix (make sure its to the right end)
+Don't turn it on yet!
 
-![Image of the LED Matrix put together](/README/img1.jfif)
+3. Affix the DC Barrel jack adaptor to the Power Supply Cable
+I cut off the connectors and used the wire strippers - red to +ve, black to -ve
+
+4. (Re)connect the Micro USB from your Pico to the Computer 
+You will have unplugged it to connect the cables.
+Stop Thonny IDE and restart code.py running
+
+5. Turn on the Power to your Matix and cross your fingers.
+Hopefully it all works and you can play with the WebSite IDE
+
+## Other things to note
+1. You will notice the website always produces a URL every time you ask it to do something. The intention is NOT to use the website to drive the Matrix, but use those URL's in Pnone and tablet applications. I have an iPhone and the application Shortcuts, has a _Get Contents of URL_ shortcut. If you paste the contents of the _URL to Copy_ as the url - then the ponbe shortcut (which you can use as widgets on your homepage etc.) To drive the Matrix.  For example I have also used a Text Input in Shortcuts so I can nominate the time for any countdown from my widget.
