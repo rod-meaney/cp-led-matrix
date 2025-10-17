@@ -13,7 +13,7 @@ I really had the following ambitions with this project
 * Make it easy to add new functionality
 
 ## What you need to buy / may have on hand
-
+ 
 ![Image of the LED Matrix put together](/README/LED_Matrix_Bits_sm.jpg)
 
 I have zero affiliation with the company I am going to use for referecne, but my dealing with them have always been really good.
@@ -113,4 +113,8 @@ Stop Thonny IDE and restart code.py running
 Hopefully it all works and you can play with the WebSite IDE
 
 ## Other things to note
-1. You will notice the website always produces a URL every time you ask it to do something. The intention is NOT to use the website to drive the Matrix, but use those URL's in Pnone and tablet applications. I have an iPhone and the application Shortcuts, has a _Get Contents of URL_ shortcut. If you paste the contents of the _URL to Copy_ as the url - then the ponbe shortcut (which you can use as widgets on your homepage etc.) To drive the Matrix.  For example I have also used a Text Input in Shortcuts so I can nominate the time for any countdown from my widget.
+### Using widgets on your phone
+You will notice the website always produces a URL every time you ask it to do something. The intention is NOT to use the website to drive the Matrix, but use those URL's in Pnone and tablet applications. I have an iPhone and the application Shortcuts, has a _Get Contents of URL_ shortcut. If you paste the contents of the _URL to Copy_ as the url - then the ponbe shortcut (which you can use as widgets on your homepage etc.) To drive the Matrix.  For example I have also used a Text Input in Shortcuts so I can nominate the time for any countdown from my widget.
+
+I am fairly confident other operating systems, especially Andriod, has almost identical features.
+### Adding new features
