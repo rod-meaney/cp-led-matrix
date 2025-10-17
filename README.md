@@ -169,6 +169,9 @@ It can be paused too!
 MOST important because I can have it in the living room due to this functionality
 ![NextTramsAndTime](/README/NextTramsAndTime.jpg)
 #### Other features
-* Scrolling Text. Next 3 Trams uses something called ThreeLines (in python) and Text Display in the front end. It allows you to display up to three lines on the matrix and is exceptionally flexible with what you can do with it - Just play with it, and you can add Weather back as an option. I only removed it from the front end. (update javascript function `text_display_line_load` in `text_display.js`)
-* Clock - part of Display Text / ThreeLines
 * Weather is available, but I found it made the system unstable. I never figured out of it was the poor network connection in the living room, the API I was using (needed ssl connection) or any other reason. Try it out, but you will have to load your city into cities.json in the data directory. I found co-ordinates using google maps. 
+* Text Display. Next 3 Trams uses something called ThreeLines (in python) and Text Display in the front end. It allows you to display up to three lines on the matrix and is exceptionally flexible with what you can do with it - Just play with it, and you can add Weather back as an option. I only removed it from the front end. (update javascript function `text_display_line_load` in `text_display.js`)
+* Scrolling Text - part of Display Text / ThreeLines
+* Clock - part of Display Text / ThreeLines
+* Images and animations need to be pre-loaded onto the Pico, but just loading the files using underscores in the filename will have them appear in the options. For best results, make them 64 x 32 bit images. Lots of websites out there to help you.
+
