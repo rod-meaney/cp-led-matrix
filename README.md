@@ -16,7 +16,7 @@ I really had the following ambitions with this project
  
 ![Image of the LED Matrix put together](/README/LED_Matrix_Bits_sm.jpg)
 
-I have zero affiliation with the company I am going to use for referecne, but my dealing with them have always been really good.
+I have zero affiliation with the company I am going to use for reference, but my dealing with them have always been really good.
 1. [Raspberry Pi Pico 2WH (Wireless WiFi, with Headers)](https://core-electronics.com.au/raspberry-pi-pico-2-wh-with-headers.html)
 2. [5V DC 4A Fixed 2.1mm Tip Appliance Plugpack](https://core-electronics.com.au/5v-dc-4a-fixed-2-1mm-tip-appliance-plugpack-47354.html)
 3. [DC Barrel Jack Adapter - Female](https://core-electronics.com.au/dc-barrel-jack-adapter-female-7392.html)
