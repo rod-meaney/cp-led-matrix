@@ -46,9 +46,9 @@ You are going to delete all you have done on the Pico up until now and install C
 * I basically followed [Installing CircuitPython](https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython)
 * Use the package manager to install other libraries that this code requires (see below)
 > [!NOTE]
-> It did not always work exaclty as described in the tutorials, but was obvious with a bit of tinkering
+> It did not always work exactly as described in the tutorials, but was obvious with a bit of tinkering
 
-Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
+CircuitPython Libraries to install (_Tools->Manage Packages_ in Thonny menus)
 * adafruit_httpserver (searching package manager in Thony, search for -> adafruit-circuitpython-httpserver)
 * adafruit_hashlib (required on Adafruit Matrix Portal M4, not Pico -> adafruit-circuitpython-hashlib)
 * adafruit_datetime (-> adafruit-circuitpython-datetime)
@@ -63,7 +63,7 @@ From this Repository
 * Register (https://timezonedb.com/), then Update cfg with your timezonedb_api_key. Micopython and Circuitpython are missing ALOT of python libraries and this helps us manage accurate time.
 * Copy across directories -> animation, data, img, saved, static, utils
 
-You should now be able to run code.py, and be able to go to the 'website', the address will be in the Thonny IDE. but it won't do much until we hook up our LED Matrix
+You should now be able to run code.py, and be able to go to the 'website', the address will be in the Thonny IDE. It won't do much until we hook up our LED Matrix
 
 > [!NOTE]
 > If you change the line in code.py to debug=True you will be able to see opening the website and any requests you make in the Thonny IDE.
@@ -78,7 +78,7 @@ Have a look at the picture above, it gives you a pretty good idea of where we ar
 1. Start with connecting the IDC ribbons pins to the Pico. Using the Pico diagram and the table below. (Disconnect it from the Micro USB to do this)
 ![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
 
-Wire (if yu are not colour blind) to Pico Pin is the easiest way to go.
+Wire (if you are not colour blind) to Pico Pin is the easiest way to go.
 ```
 | Function          | Wire   | GPIO Pin | Pico Pin |
 |-------------------|--------|----------|----------|
@@ -112,7 +112,7 @@ You will have unplugged it to connect the cables.
 Stop Thonny IDE and restart code.py
 
 5. Turn on the Power to your Matix and cross your fingers.
-Hopefully it all works and you can play with the WebSite IDE
+Hopefully it all works and you can play with the Website driver
 
 ## Other things to note
 ### Using widgets on your phone
