@@ -159,4 +159,4 @@ There is also a led-matrix.stl file, which I used to create a simple box for the
 
 ### Examples of some of the features
 
-![Scoreboard](/README/ScoreBoard.jpg), ![CountDown](/README/CountDown.jpg), ![NextTramAndTime](/README/NextTramAndTime.jpg)
+![Scoreboard](/README/ScoreBoard.jpg), ![CountDown](/README/CountDown.jpg), ![NextTramsAndTime](/README/NextTramsAndTime.jpg)
