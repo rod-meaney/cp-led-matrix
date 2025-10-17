@@ -101,7 +101,7 @@ Wire (if you are not colour blind) to Pico Pin is the easiest way to go.
 | GND               | Brown  | GND      | 18        |
 ```
 > [!NOTE]
-> `* The above pin allocation is for the Matrix in the list above. I also bought a ![RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) and its pin allocation varies slightly - the brackets () in the above table
+> The above pin allocation is for the Matrix in the list above. I also bought a [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) and its pin allocation varies slightly - the brackets () in the above table
 
 
 2. Connect the other end of the IDC to the Matrix (make sure its to the right end)
