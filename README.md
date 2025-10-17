@@ -80,26 +80,29 @@ Have a look at the picture above, it gives you a pretty good idea of where we ar
 
 Wire (if you are not colour blind) to Pico Pin is the easiest way to go.
 ```
-| Function          | Wire   | GPIO Pin | Pico Pin |
-|-------------------|--------|----------|----------|
-| High R data       | Blue   | GP0      | 1        |
-| High G data       | Green  | GP1      | 2        |
-| High B data       | Yellow | GP2      | 4        |
-| GND               | Orange | GND      | 3        |
-| Low R data        | Red    | GP3      | 5        |
-| Low G data        | Brown  | GP4      | 6        |
-| Low B data        | Black  | GP5      | 7        |
-| GND               | White  | GND      | 8        |
-| A line selection  | Grey   | GP6      | 9        |
-| B line selection  | Purple | GP7      | 10       |
-| C line selection  | Blue   | GP8      | 11       |
-| D line selection  | Green  | GP9      | 12       |
-| E line selection  |        |          |          |
-| CLOCK             | Yellow | GP10     | 14       |
-| LATCH             | Orange | GP11     | 15       |
-| Output Enable     | Red    | GP12     | 16       |
-| GND               | Brown  | GND      | 18       |
+| Function          | Wire   | GPIO Pin | Pico Pin* |
+|-------------------|--------|----------|-----------|
+| High R data       | Blue   | GP0      | 1         |
+| High G data       | Green  | GP1      | 2   (4)   |
+| High B data       | Yellow | GP2      | 4   (2)   |
+| GND               | Orange | GND      | 3         |
+| Low R data        | Red    | GP3      | 5         |
+| Low G data        | Brown  | GP4      | 6   (7)   |
+| Low B data        | Black  | GP5      | 7   (6)   |
+| GND               | White  | GND      | 8         |
+| A line selection  | Grey   | GP6      | 9         |
+| B line selection  | Purple | GP7      | 10        |
+| C line selection  | Blue   | GP8      | 11        |
+| D line selection  | Green  | GP9      | 12        |
+| E line selection  |        |          |           |
+| CLOCK             | Yellow | GP10     | 14        |
+| LATCH             | Orange | GP11     | 15        |
+| Output Enable     | Red    | GP12     | 16        |
+| GND               | Brown  | GND      | 18        |
 ```
+> [!NOTE]
+> `* The above pin allocation is for the Matrix in the list above. I also bought a ![RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) and its pin allocation varies slightly - the brackets () in the above table
+
 
 2. Connect the other end of the IDC to the Matrix (make sure its to the right end)
 Don't turn it on yet!
