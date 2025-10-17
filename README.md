@@ -39,7 +39,7 @@ We basically need to do the following
 ### Start coding on the device and get used to writing code
 Google _getting started raspberry pi pico_. Follow the bouncing ball on a tutorial like [Getting started with Raspberry Pi Pico](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico) which
 * Install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
-* Use Thonny to code on the device and understand the principles. I just got the led on the Pico flashing befoe I moved on.
+* Use Thonny to code on the device and understand the principles. I just got the led on the Pico flashing before I moved on.
 
 ## Install CircuitPython and dependencies
 You are going to delete all you have done on the Pico up until now and install CricuitPython
@@ -53,7 +53,7 @@ Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
 * adafruit_hashlib (required on Adafruit Matrix Portal M4, not Pico -> adafruit-circuitpython-hashlib)
 * adafruit_datetime (-> adafruit-circuitpython-datetime)
 * adafruit_requests (-> adafruit-circuitpython-requests)
-* adafruit__ntp (-> adafruit-circuitpython-ntp)
+* adafruit_ntp (-> adafruit-circuitpython-ntp)
 * adafruit_display_text (-> adafruit-circuitpython-display-text)
 * adafruit_display_shapes (-> adafruit-circuitpython-display-shapes)
 
@@ -78,6 +78,7 @@ Have a look at the picture above, it gives you a pretty good idea of where we ar
 1. Start with connecting the IDC ribbons pins to the Pico. Using the Pico diagram and the table below. (Disconnect it from the Micro USB to do this)
 ![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
 
+Wire (if yu are not colour blind) to Pico Pin is the easiest way to go.
 ```
 | Function          | Wire   | GPIO Pin | Pico Pin |
 |-------------------|--------|----------|----------|
@@ -108,7 +109,7 @@ I cut off the connectors and used the wire strippers - red to +ve, black to -ve
 
 4. (Re)connect the Micro USB from your Pico to the Computer 
 You will have unplugged it to connect the cables.
-Stop Thonny IDE and restart code.py running
+Stop Thonny IDE and restart code.py
 
 5. Turn on the Power to your Matix and cross your fingers.
 Hopefully it all works and you can play with the WebSite IDE
@@ -117,32 +118,33 @@ Hopefully it all works and you can play with the WebSite IDE
 ### Using widgets on your phone
 You will notice the website always produces a URL every time you ask it to do something. The intention is NOT to use the website to drive the Matrix, but use those URL's in widgets on the iPhone and tablet applications. I have an iPhone and the application _Shortcuts_ has a _Get Contents of URL_ shortcut. If you paste the contents of the _URL to Copy_ as the url - then the iPhone shortcut (which you can add as widgets on your homepage etc.) to drive the Matrix.  For example I have also used a Text Input in Shortcuts so I can nominate the time for any countdown from my widget.
 
-I am fairly confident other operating systems, especially Andriod, has almost identical features.
+I am fairly confident other operating systems, especially Andriod, has almost identical apps/features.
 
 ### Adding new features
-A fair bit of effort went into making this project easily extendable. Micropython and CircuitPythons limited python libraries prevented this being a project where you could just drop new files and they would be dynamically loaded. However, it is still fairly simpel to add new functionality.
+A fair bit of effort went into making this project easily extendable. Micropython and CircuitPythons limited python libraries prevented this being a project where you could just drop new files and they would be dynamically loaded. However, it is still fairly simple to add new functionality.
 
-When looking at adding new features, follow along with CountDown as an example - hard to go wrong. Most things will work of you follow conventions
+When looking at adding new features, follow along with CountDown as an example - hard to go wrong. Most things will work of you follow conventions. There are 2 main parts, a web front end to choose functionality, and driving the matrix using Circuitpython based on the request from the web front end. 
 
 #### Front End - web interface
 Basically three area's need updating in the static directory:
 1. Create a new Javascript file (copy count_down.js and rename). Rename x_process and x_load to your new feature name (identical to step 3)
- - delete pause_countdown unless you need similar funtionaliy which inegrates with a running feature
+ - delete pause_countdown unless you need similar funtionality which inegrates with a running feature
 2. Add js file in index.html header
 3. Include new feature as an option in the dropdown for id _rgb-function-to-run_
+ - the buttons use dynamic javascript (window context) to run fucntions based on the value selected in the dropdown 
 
-and then start coding (by example) in your new javascript file. Its basically doing domain object injection. Se what I have done, and copy. Its not supposed to be a beautiful interface, but functional so you can generate the url's to put in widgets.
+and then start coding (by example) in your new javascript file. Its basically doing domain object injection. See what I have done, and copy. Its not supposed to be a beautiful interface, but functional so you can generate the url's to put in widgets.
 
-I found coding javascript locally while running Thonny meant that the json gets worked, but I didn't have to restart Thonny all the time. To do this i temporarily hacked the fetch in _index.js_ to nopt be relative. DON"T FORGET to turn it back.
+I found coding javascript locally (file system) while running Thonny meant that the json gets loaded, but I didn't have to restart Thonny all the time. To do this I temporarily hacked the fetch in _index.js_ to not be relative. DON"T FORGET to turn it back.
 
 #### Driving the matrix
 This is very similar to the front end. Again use CountDown:
-1. Copy CountDown.py (in the utils directory). Rename it and rename the Class
+1. Copy CountDown.py (in the utils directory). Rename it and rename the Class in the file
 2. Update code.py. 
  - import the new Class - near the top
  - The route for loadjson has an _if / else if_ that needs to be added to. 
 
-and then start coding. Circuitpython doco is pretty good anbd it does some amazing things. When you start getting fancy you are likely to need to add more packages for functionality. Thonny does this easily (see section above when setting up Thonny).
+and then start coding. Circuitpython doco is pretty good and it does some amazing things. When you start getting fancy you are likely to need to add more packages for functionality. Thonny does this easily (see section above when setting up Thonny).
 
 I found coding directly through Thonny onto the device the best way as you got imnmediate feedback. I also removed the try's in the while / true loop as it made it much easier to find issues.
 
@@ -158,5 +160,15 @@ At some point, we plug it and use it, and stop playing with it. When that point 
 There is also a led-matrix.stl file, which I used to create a simple box for the LED-Matrix. Unfortuantely my 3d printer was only 20cm by 20cm, so I had to do half at a time, thus the dodgy fit.
 
 ### Examples of some of the features
-
-![Scoreboard](/README/ScoreBoard.jpg), ![CountDown](/README/CountDown.jpg), ![NextTramsAndTime](/README/NextTramsAndTime.jpg)
+#### Scoreboard
+![Scoreboard](/README/ScoreBoard.jpg)
+#### Countdown
+It can be paused too!
+![CountDown](/README/CountDown.jpg)
+#### Next 3 Trams
+MOST important because I can have it in the living room due to this functionality
+![NextTramsAndTime](/README/NextTramsAndTime.jpg)
+#### Other features
+* Scrolling Text. Next 3 Trams uses something called ThreeLines (in python) and Text Display in the front end. It allows you to display up to three lines on the matrix and is exceptionally flexible with what you can do with it - Just play with it, and you can add Weather back as an option. I only removed it from the front end. (update javascript function `text_display_line_load` in `text_display.js`)
+* Clock - part of Display Text / ThreeLines
+* Weather is available, but I found it made the system unstable. I never figured out of it was the poor network connection in the living room, the API I was using (needed ssl connection) or any other reason. Try it out, but you will have to load your city into cities.json in the data directory. I found co-ordinates using google maps. 
