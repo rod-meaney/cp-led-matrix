@@ -39,7 +39,7 @@ We basically need to do the following
 ### Start coding on the device and get used to writing code
 Google _getting started raspberry pi pico_. Follow the bouncing ball on a tutorial like [Getting started with Raspberry Pi Pico](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico) which
 * Install Thonny (Adafruit also has [Mu Editor](https://codewith.mu/), I thought Thonny was simpler)
-* Using Thonny to code on the device
+* Use Thonny to code on the device and understand the principles. I just got the led on the Pico flashing befoe I moved on.
 
 ## Install CircuitPython and dependencies
 You are going to delete all you have done on the Pico up until now and install CricuitPython
@@ -60,6 +60,7 @@ Circuit Python Libraries to install (_Tools->Manage Packages_ in Thony menus)
 From this Repository
 * Copy across Code.py and cfg
 * Update cfg with your local wirelss name and password
+* Register (https://timezonedb.com/), then Update cfg with your timezonedb_api_key. Micopython and Circuitpython are missing ALOT of python libraries and this helps us manage accurate time.
 * Copy across directories -> animation, data, img, saved, static, utils
 
 You should now be able to run code.py, and be able to go to the 'website', the address will be in the Thonny IDE. but it won't do much until we hook up our LED Matrix
@@ -114,7 +115,48 @@ Hopefully it all works and you can play with the WebSite IDE
 
 ## Other things to note
 ### Using widgets on your phone
-You will notice the website always produces a URL every time you ask it to do something. The intention is NOT to use the website to drive the Matrix, but use those URL's in Pnone and tablet applications. I have an iPhone and the application Shortcuts, has a _Get Contents of URL_ shortcut. If you paste the contents of the _URL to Copy_ as the url - then the ponbe shortcut (which you can use as widgets on your homepage etc.) To drive the Matrix.  For example I have also used a Text Input in Shortcuts so I can nominate the time for any countdown from my widget.
+You will notice the website always produces a URL every time you ask it to do something. The intention is NOT to use the website to drive the Matrix, but use those URL's in widgets on the iPhone and tablet applications. I have an iPhone and the application _Shortcuts_ has a _Get Contents of URL_ shortcut. If you paste the contents of the _URL to Copy_ as the url - then the iPhone shortcut (which you can add as widgets on your homepage etc.) to drive the Matrix.  For example I have also used a Text Input in Shortcuts so I can nominate the time for any countdown from my widget.
 
 I am fairly confident other operating systems, especially Andriod, has almost identical features.
+
 ### Adding new features
+A fair bit of effort went into making this project easily extendable. Micropython and CircuitPythons limited python libraries prevented this being a project where you could just drop new files and they would be dynamically loaded. However, it is still fairly simpel to add new functionality.
+
+When looking at adding new features, follow along with CountDown as an example - hard to go wrong. Most things will work of you follow conventions
+
+#### Front End - web interface
+Basically three area's need updating in the static directory:
+1. Create a new Javascript file (copy count_down.js and rename). Rename x_process and x_load to your new feature name (identical to step 3)
+ - delete pause_countdown unless you need similar funtionaliy which inegrates with a running feature
+2. Add js file in index.html header
+3. Include new feature as an option in the dropdown for id _rgb-function-to-run_
+
+and then start coding (by example) in your new javascript file. Its basically doing domain object injection. Se what I have done, and copy. Its not supposed to be a beautiful interface, but functional so you can generate the url's to put in widgets.
+
+I found coding javascript locally while running Thonny meant that the json gets worked, but I didn't have to restart Thonny all the time. To do this i temporarily hacked the fetch in _index.js_ to nopt be relative. DON"T FORGET to turn it back.
+
+#### Driving the matrix
+This is very similar to the front end. Again use CountDown:
+1. Copy CountDown.py (in the utils directory). Rename it and rename the Class
+2. Update code.py. 
+ - import the new Class - near the top
+ - The route for loadjson has an _if / else if_ that needs to be added to. 
+
+and then start coding. Circuitpython doco is pretty good anbd it does some amazing things. When you start getting fancy you are likely to need to add more packages for functionality. Thonny does this easily (see section above when setting up Thonny).
+
+I found coding directly through Thonny onto the device the best way as you got imnmediate feedback. I also removed the try's in the while / true loop as it made it much easier to find issues.
+
+### Only 1 power source
+![Image of the LED Matrix with one power source](/README/Refined.jpg)
+At some point, we plug it and use it, and stop playing with it. When that point comes, it is worth driving the Pico off the 5V power source instead of a separate power source. The above diagram shows 
+1. the connection from the +ve and -ve wires to 
+2. pin 39 (+ve) and pin 38 (-ve/GRND)
+3. My 3D printed cover for the matrix.
+> [!CAUTION]
+> NEVER have your Pico plugged into a micro USB AND running off a separate power source. This can break your Pico.
+
+There is also a led-matrix.stl file, which I used to create a simple box for the LED-Matrix. Unfortuantely my 3d printer was only 20cm by 20cm, so I had to do half at a time, thus the dodgy fit.
+
+### Examples of some of the features
+
+![Scoreboard](/README/ScoreBoard.jpg), ![CountDown](/README/CountDown.jpg), ![NextTramAndTime](/README/NextTramAndTime.jpg)
