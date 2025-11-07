@@ -1,0 +1,20 @@
+{
+	"name":"ThreeLines", 
+	"mins":0,
+	"lines":[
+		{
+			"type":"weather", 
+			"color":"Indigo", 
+			"data":{
+				"city": "Anglesea"
+			},
+		}
+		{
+			"type":"clock", 
+			"color":"Indigo", 
+			"data":{
+				"seconds":false
+			}
+		}
+	]
+}

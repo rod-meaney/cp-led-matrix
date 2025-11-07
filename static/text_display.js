@@ -28,8 +28,10 @@ function text_display_process(){
                 const tram_stop_id = document.getElementById(`text-display-component-${i}-stop-id-text-input`);
                 tram_route.value = tram_route.value.trim();
                 tram_stop_id.value = tram_stop_id.value.trim();
+                let show_route = false;
+                if (document.getElementById(`text-display-component-${i}-radio-yes`).checked){show_route = true;}
                 if (check_str_int(tram_route.value) && check_str_int(tram_stop_id.value)){
-                        req["lines"].push({"type":"tram", "data":{"stopNo":`${tram_stop_id.value}`, "routeNo":`${tram_route.value}`}})
+                        req["lines"].push({"type":"tram", "data":{"stopNo":`${tram_stop_id.value}`, "routeNo":`${tram_route.value}`, "showRoute":show_route}})
                 } else {
                     throw "Route and Stop id must be whole numbers";
                 }
@@ -78,7 +80,7 @@ function text_display_update_lines(selected_value){
 }
 
 function text_display_line_load(prefix,parent_node,lines){
-    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling"]; //Weather is temporarily removed - it is causing issues
+    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling","Weather"]; //Weather is temporarily removed - it is causing issues
     for (let i = 1; i <= lines; i++) {
         component_heading(parent_node, "h5", "Line "+i);
         component_select(prefix, "line-"+i, parent_node, line_options, true, text_display_choice_load);
@@ -134,5 +136,9 @@ function text_display_tram_load(prefix, parent_node){
     parent_node.appendChild(document.createElement("p"));
     component_text(prefix+"-route","  Route",parent_node);
     parent_node.appendChild(document.createElement("p"));
-    component_text(prefix+"-stop-id","  Stop id (NOT number)",parent_node);    
+    component_text(prefix+"-stop-id","  Stop id (NOT number)",parent_node);   
+    parent_node.appendChild(document.createElement("p"));
+    parent_node.appendChild(document.createTextNode('Show route '));
+    let buttons = [{value:"yes",text:"yes"}, {value:"no",text:"no"}];
+    component_radio_buttons(prefix, parent_node, buttons, "no");
 }

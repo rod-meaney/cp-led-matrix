@@ -12,12 +12,18 @@ function saved_files_process(){
 function img_files_load(parent_node){    
     component_heading(parent_node, "h4", "Images");
     component_select("saved", "images", parent_node, fetched_data.images, true);
+    parent_node.appendChild(document.createElement("p"));
+    parent_node.appendChild(document.createTextNode('slideshow '));
+    let buttons = [{value:"yes",text:"yes"}, {value:"no",text:"no"}];
+    component_radio_buttons('saved-images', parent_node, buttons, "no");
 }
 
 function img_files_process(){
     el = document.getElementById('saved-images-select');
     file = el.value.replaceAll(' ', '_');
-    return {"name":"Images", "file":`${file}`}
+    let slide_show = false;
+    if (document.getElementById(`saved-images-radio-yes`).checked){slide_show = true;}
+    return {"name":"Images", "file":`${file}`, "slideShow":slide_show}
 }
 
 function animation_files_load(parent_node){

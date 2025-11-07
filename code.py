@@ -20,6 +20,7 @@ from utils.WordPunch import WordPunch #inherits from LEDMatrix
 from utils.Animation import Animation #inherits from LEDMatrix
 from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
 from utils.CountDown import CountDown #inherits from LEDMatrix
+from utils.Halloween import Halloween
 from utils.Score import Score #inherits from LEDMatrix
 from utils.Images import Images #inherits from LEDMatrix
 from utils.config import PMConfig
@@ -52,6 +53,7 @@ try:
     HOSTNAME = cfg.getConfig('HOSTNAME')
     timezonedb_api_key = cfg.getConfig('timezonedb_api_key')
     timezonedb_zone = cfg.getConfig('timezonedb_zone')
+    horizontal_screens = int(cfg.getConfig('horizontal_screens'))
     data = cfg.get_all_matrix_config() #does all the file reads needed
 
     # creating a hostname for local server
@@ -91,12 +93,12 @@ try:
     '''
     Default matrix
     '''
-    dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, data, {"text":f"address is http://{HOSTNAME}.local:5000","color":"White"})
+    dis = LEDMatrixBasic(horizontal_screens, tz_offset, requests, ssl_requests, data, {"text":f"address is http://{HOSTNAME}.local:5000","color":"White"})
     
 except Exception as e:
     ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
     error_message = f"An error occurred at startup {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - RESTART DEVICE"
-    dis = LEDMatrixBasic(0, '', '', {}, {"text":error_message,"color":"Red"})
+    dis = LEDMatrixBasic(1, 0, '', '', {}, {"text":error_message,"color":"Red"})
 
 
 '''
@@ -124,26 +126,28 @@ def base(request: Request):
     m_name = decoded_json["name"]
     global dis
     if m_name == "Stop":
-        dis = LEDMatrixStop(tz_offset, requests, ssl_requests, data, {})
+        dis = LEDMatrixStop(horizontal_screens, tz_offset, requests, ssl_requests, data, {})
     elif m_name == "WordPunch":
-        dis = WordPunch(tz_offset, requests, ssl_requests, data, decoded_json)
+        dis = WordPunch(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "Animation":
-        dis = Animation(tz_offset, requests, ssl_requests, data, decoded_json)
+        dis = Animation(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "ThreeLines":
-        dis = ThreeLines(tz_offset, requests, ssl_requests, data, decoded_json)
+        dis = ThreeLines(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "3LinesFile":
         saved_json = ThreeLines.load_from_file(decoded_json["file"])
-        dis = ThreeLines(tz_offset, requests, ssl_requests, data, saved_json)
+        dis = ThreeLines(horizontal_screens, tz_offset, requests, ssl_requests, data, saved_json)
     elif m_name == "Images":
-        dis = Images(tz_offset, requests, ssl_requests, data, decoded_json)
+        dis = Images(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
+    elif m_name == "Halloween":
+        dis = Halloween(horizontal_screens, tz_offset, requests, ssl_requests, data, {})
     elif m_name == "CountDown":
         if decoded_json["mode"] == 'load':
-            dis = CountDown(tz_offset, requests, ssl_requests, data, decoded_json)
+            dis = CountDown(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
         else:
             dis.update(decoded_json)            
     elif m_name == "Score":
         if decoded_json["mode"] == 'load':
-            dis = Score(tz_offset, requests, ssl_requests, data, decoded_json)
+            dis = Score(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
         else:
             dis.update(decoded_json)
     return JSONResponse(request, {})
@@ -152,7 +156,9 @@ def base(request: Request):
 '''
 ==== RUNNING ====
 '''
-
+#Mehtod for testing individual class
+#decoded_json = {"name":"Images","file":"witch"}
+#dis = Images(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
 while True:
     try:
         server.poll()
@@ -160,15 +166,14 @@ while True:
         # We have occaisionally seen issues with the poll throwing errors for no reason, adding this in to see if
         # it syabailses things
         gc.collect()
-
     try:
         dis.poll()
     except Exception as e:
         # This will be errors with designed functionality
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - TRY ANOTHER FUNCTION, or RESTART DEVICE"
-        dis = LEDMatrixBasic(tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})      
-''' 
+        dis = LEDMatrixBasic(horizontal_screens, tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})      
+'''
     server.poll()
     dis.poll()
 ''' 

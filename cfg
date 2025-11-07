@@ -3,3 +3,4 @@ timezonedb_zone=Australia/Melbourne
 WIFI_SSID=<add your own>
 WIFI_PASSWORD=<add your own>
 HOSTNAME=rgb-matrix
+horizontal_screens=1

@@ -18,12 +18,12 @@ class LEDMatrix(object):
     Nothing but the simplest base functions
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+    def __init__(self, horizontal_screens, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
         displayio.release_displays()
         #Set up the board
         if piType == "pico":
             self.matrix = rgbmatrix.RGBMatrix(
-                width=64, height=32, bit_depth=2,
+                width=horizontal_screens*64, height=32, bit_depth=2,
                 rgb_pins=[board.GP0, board.GP1, board.GP2, board.GP3, board.GP4, board.GP5],
                 addr_pins=[board.GP6, board.GP7, board.GP8, board.GP9],
                 clock_pin=board.GP10, latch_pin=board.GP11, output_enable_pin=board.GP12)
@@ -32,7 +32,7 @@ class LEDMatrix(object):
         else:
             #Zero with Adafruit HAT
             self.matrix = rgbmatrix.RGBMatrix(
-                width=64, height=32, bit_depth=2,
+                width=horizontal_screens*64, height=32, bit_depth=2,
                 rgb_pins=[board.GP5, board.GP13, board.GP6, board.GP12, board.GP16, board.GP23],
                 addr_pins=[board.GP22, board.GP26, board.GP27, board.GP20],
                 clock_pin=board.GP17, latch_pin=board.GP21, output_enable_pin=board.GP4)
@@ -40,6 +40,7 @@ class LEDMatrix(object):
         #Create the display
         self.display = framebufferio.FramebufferDisplay(self.matrix, auto_refresh=False)
         self.width = self.display.width #making it more specific
+        self.height = self.display.height
         
         #Constants needed
         self.sleep = 0.05
@@ -57,6 +58,9 @@ class LEDMatrix(object):
 
         #Set the data for any of the classes to use as necessary
         self.data = data
+
+        #Prepare a tile grid just in case
+        self.tile_grid = 0
 
         #Set the start screen as blank
         self.BlankScreen()
@@ -127,9 +131,10 @@ class LEDMatrix(object):
         self.ShowImageBitmapLoaded(bitmap)
         
     def ShowImageBitmapLoaded(self, bitmap):
-        tile_grid = displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader)
+        self.tile_grid = displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader)
+        self.tile_grid.x = int(0.5*(self.width - bitmap.width)) #center the image
         group = displayio.Group()
-        group.append(tile_grid)
+        group.append(self.tile_grid)
         self.display.root_group = group
         self.display.refresh(minimum_frames_per_second=0)
 
