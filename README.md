@@ -169,12 +169,16 @@ There is also a led-matrix.stl file, which I used to create a simple box for the
 It can be paused too!
 ![CountDown](/README/CountDown.jpg)
 #### Next 3 Trams
-MOST important because I can have it in the living room due to this functionality
+MOST important because I can have it in the living room due to this functionality. You can also optionally add the route number to the display. With 64 pixels, sometimes it won;t show all of the thrid tram duw.
 ![NextTramsAndTime](/README/NextTramsAndTime.jpg)
+#### Running multiple screens / panels
+You can put more than one panel into series - I had 3 working at one point with almost no effort. Circuitpython framework just needs to know the width. I added in a config item which is _horizontal_screens_ . Default is 1, but if you add more screens, change the config to 2 and pretty much all the code still works. The code I wrote always works to wdith, so just changing the initial value meanys ot works. The small panel I bought ([RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html)) acually had a power splitter which let me easily power 2 panels from the same 5V connector. With all panels I have bought they include the connector to serialise multiple panels.
 #### Other features
 * Weather is available, but I found it made the system unstable. I never figured out of it was the poor network connection in the living room, the API I was using (needed ssl connection) or any other reason. Try it out, but you will have to load your city into cities.json in the data directory. I found co-ordinates using google maps. 
 * Text Display. Next 3 Trams uses something called ThreeLines (in python) and Text Display in the front end. It allows you to display up to three lines on the matrix and is exceptionally flexible with what you can do with it - Just play with it, and you can add Weather back as an option. I only removed it from the front end. (update javascript function `text_display_line_load` in `text_display.js`)
 * Scrolling Text - part of Display Text / ThreeLines
 * Clock - part of Display Text / ThreeLines
 * Images and animations need to be pre-loaded onto the Pico, but just loading the files using underscores in the filename will have them appear in the options. For best results, make them 64 x 32 bit images. Lots of websites out there to help you.
+* * Added a feature to roate all the iopages through
+
 
