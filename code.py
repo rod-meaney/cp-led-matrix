@@ -15,7 +15,7 @@ import adafruit_requests
 import adafruit_ntp
 
 #Locally coded classes/files
-from utils.LEDMatrix import LEDMatrixBasic, LEDMatrixStop
+from utils.LEDMatrix import LEDMatrixBasic, LEDMatrixStop, UpScroll
 from utils.WordPunch import WordPunch #inherits from LEDMatrix
 from utils.Animation import Animation #inherits from LEDMatrix
 from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
@@ -31,7 +31,7 @@ from utils.config import PMConfig
 '''
 # no decoding availbale in pico/adfruit circuit python libraries
 def decode_pico(url):
-    basic_decoding = {"%20":" ","%26":"&", "%3D":"=", "%23":"#", "%2F":"/", "%2B":"+", "%25":"%", "%3F":"?", "%3A":":", "%2C":",", "%27":"'", "%21":"!", "%2A":"*", "%28":"(", "%29":")", "%22":"\"", "%7B":"{", "%7D":"}", "%5B":"[", "%5D":"]"}
+    basic_decoding = {"%20":" ","%26":"&", "%3D":"=", "%23":"#", "%2F":"/", "%2B":"+", "%25":"%", "%3F":"?", "%3A":":", "%2C":",", "%27":"'", "%21":"!", "%2A":"*", "%28":"(", "%29":")", "%22":"\"", "%7B":"{", "%7D":"}", "%5B":"[", "%5C":"\\", "%5D":"]"}
     for dec in basic_decoding.keys():
         url = url.replace(dec, basic_decoding[dec])
     return url
@@ -129,6 +129,8 @@ def base(request: Request):
         dis = LEDMatrixStop(horizontal_screens, tz_offset, requests, ssl_requests, data, {})
     elif m_name == "WordPunch":
         dis = WordPunch(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
+    elif m_name == "UpScroll":
+        dis = UpScroll(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "Animation":
         dis = Animation(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "ThreeLines":
@@ -172,7 +174,7 @@ while True:
         # This will be errors with designed functionality
         ctime = (datetime.now() + timedelta(seconds= tz_offset)).timetuple()
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - TRY ANOTHER FUNCTION, or RESTART DEVICE"
-        dis = LEDMatrixBasic(horizontal_screens, tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})      
+        dis = LEDMatrixBasic(horizontal_screens, tz_offset, requests, ssl_requests, data, {"text":error_message,"color":"Red"})
 '''
     server.poll()
     dis.poll()

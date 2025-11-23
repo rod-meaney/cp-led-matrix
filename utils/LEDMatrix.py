@@ -104,7 +104,13 @@ class LEDMatrix(object):
         line_width = label.bounding_box[2]
         if label.x >= self.width:
             label.x = -line_width
-            
+
+    def scroll_label_up(self, label):
+        label.y  = label.y -1
+        label_height = label.bounding_box[3]
+        if label.y < -label_height:
+            label.y = self.height
+
     def clock_label(self, label, seconds):
         ctime = (datetime.now() + timedelta(seconds=self.tz_offset)).timetuple()
         if seconds:
@@ -148,11 +154,13 @@ class LEDMatrixBasic(LEDMatrix):
     
     def load(self,json_data):
         self.label = adafruit_display_text.label.Label(terminalio.FONT, text=json_data["text"], color=self.get_color(json_data["color"]), x=0, y=12)
+        #self.label = adafruit_display_text.label.Label(terminalio.FONT, text="  what we\nhave here\nfailu to\n  commun", color=self.get_color(json_data["color"]), x=0, y=12)
         g = displayio.Group()
         g.append(self.label)
         self.display.root_group = g
         
     def run(self):
+        #self.scroll_label_up(self.label)
         self.scroll_label(self.label)
         self.display.refresh(minimum_frames_per_second=0)
         
@@ -169,4 +177,24 @@ class LEDMatrixStop(LEDMatrix):
         
     def run(self):
         pass
+
+class UpScroll(LEDMatrix):
+    '''
+    Simple text but scroll upwards - padding done manually
+    '''
+
+    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
     
+    def load(self,json_data):
+        #may have to do some text manipulation here
+        self.sleep = float(json_data["sleep"])
+        print(json_data)
+        self.label = adafruit_display_text.label.Label(terminalio.FONT, text=json_data["sentence"], color=self.get_color(json_data["color"]), x=0, y=12)
+        g = displayio.Group()
+        g.append(self.label)
+        self.display.root_group = g
+        
+    def run(self):
+        self.scroll_label_up(self.label)
+        self.display.refresh(minimum_frames_per_second=0)

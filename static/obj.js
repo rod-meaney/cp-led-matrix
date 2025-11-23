@@ -40,9 +40,19 @@ function animation_files_process(){
 function component_text(prefix, label, parent_node){
     const textElement = document.createElement("input");
     textElement.id = "{0}-text-input".replace('{0}',prefix); // Set an ID
-    textElement.name = textElement.id; // Set a name for form submission
+    textElement.name = textElement.id; // Set a name for form submission - never really use
     parent_node.appendChild(textElement);
     parent_node.appendChild(document.createTextNode('  '+label));
+}
+
+function component_textarea(prefix, label, parent_node){
+    const textElement = document.createElement("textarea");
+    textElement.id = "{0}-textarea".replace('{0}',prefix); // Set an ID
+    textElement.name = textElement.id; // Set a name for form submission - never really use
+    textElement.rows = 5;
+    textElement.cols = 40;
+    textElement.placeholder = label;
+    parent_node.appendChild(textElement);
 }
 
 function component_color(prefix, parent_node){
