@@ -30,6 +30,8 @@ class ThreeLines(LEDMatrix):
                 self.tram_label(label)
             elif label["type"] == "weather":
                 self.weather_label(label)
+            elif label["type"] == "catfacts":
+                self.cat_facts(label)
         self.initialise = False
         self.display.refresh(minimum_frames_per_second=0)
     
@@ -86,7 +88,6 @@ class ThreeLines(LEDMatrix):
         except Exception as e:
             # Making it backwards compatiable with earlier versions
             pass
-        
         
         check_every = 20
         TramUrl=f"http://tramtracker.com.au/Controllers/GetNextPredictionsForStop.ashx?stopNo={stopNo}&routeNo={routeNo}&isLowFloor=false"
@@ -146,3 +147,22 @@ class ThreeLines(LEDMatrix):
                 self.temperature_missed = '*'
             label.text = f'{abbrev}:{self.temperature}{self.temperature_missed}c'
             self.center_label(label)
+
+    def cat_facts(self, row):
+        label = row["label"]
+        last_cat_check = row["clock"]
+        
+        check_every = 300
+        CatUrl="https://catfact.ninja/fact"
+        
+        if ((math.ceil(time.monotonic() - last_cat_check) % check_every)== 0) or self.initialise:
+            try:
+                row["clock"] = time.monotonic()
+                time.sleep(self.sleep) #recommended to pause before sending requests from pico
+                response = self.ssl_requests.get(CatUrl, timeout=2)
+                data = json.loads(response.text)
+                label.text = data.fact
+            except Exception as e:
+                # https ceretificate issues - may look at again if it works later
+                print(e)
+                pass

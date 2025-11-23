@@ -42,6 +42,10 @@ function text_display_process(){
                 text_text.value = text_text.value.trim();
                 req["lines"].push({"type":"text", "color":text_color, "text":text_text.value,"data":{}});
                 break;
+            case "Cat Facts":
+                const cat_color = document.getElementById(`text-display-component-${i}-color-select`).value;
+                req["lines"].push({"type":"catfacts", "color":cat_color, "data":{}});
+                break;
             case "Scrolling":
                 const scroll_color = document.getElementById(`text-display-component-${i}-color-select`).value;
                 const scroll_text = document.getElementById(`text-display-component-${i}-text-input`);
@@ -80,7 +84,7 @@ function text_display_update_lines(selected_value){
 }
 
 function text_display_line_load(prefix,parent_node,lines){
-    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling","Weather"]; //Weather is temporarily removed - it is causing issues
+    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling","Weather"]; //,"Cat Facts" Cat facts has a cerificate error :-( 
     for (let i = 1; i <= lines; i++) {
         component_heading(parent_node, "h5", "Line "+i);
         component_select(prefix, "line-"+i, parent_node, line_options, true, text_display_choice_load);
@@ -107,6 +111,12 @@ function text_display_time_load(prefix, parent_node){
     let buttons = [{value:"yes",text:"yes"}, {value:"no",text:"no"}];
     component_radio_buttons(prefix, parent_node, buttons, "no");
 }
+
+function text_display_cat_facts_load(prefix, parent_node){
+    parent_node.appendChild(document.createElement("p"));
+    component_color(prefix,parent_node);
+}
+
 
 function text_display_weather_load(prefix, parent_node){
     parent_node.appendChild(document.createElement("p"));
