@@ -21,6 +21,7 @@ from utils.Animation import Animation #inherits from LEDMatrix
 from utils.ThreeLines import ThreeLines #inherits from LEDMatrix
 from utils.CountDown import CountDown #inherits from LEDMatrix
 from utils.Halloween import Halloween
+from utils.Magic8Ball import Magic8Ball
 from utils.Score import Score #inherits from LEDMatrix
 from utils.Images import Images #inherits from LEDMatrix
 from utils.config import PMConfig
@@ -71,6 +72,7 @@ try:
 
     # for connecting to external API's over https
     ssl_context = ssl.create_default_context()
+
     ssl_requests = adafruit_requests.Session(pool,ssl_context)
 
     # set the time on the pico to current GMT
@@ -142,6 +144,8 @@ def base(request: Request):
         dis = Images(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
     elif m_name == "Halloween":
         dis = Halloween(horizontal_screens, tz_offset, requests, ssl_requests, data, {})
+    elif m_name == "Eightball":
+        dis = Magic8Ball(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)    
     elif m_name == "CountDown":
         if decoded_json["mode"] == 'load':
             dis = CountDown(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
@@ -159,8 +163,8 @@ def base(request: Request):
 ==== RUNNING ====
 '''
 #Mehtod for testing individual class
-#decoded_json = {"name":"Images","file":"witch"}
-#dis = Images(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
+#decoded_json = {"name":"Magic8Ball"}
+#dis = Magic8Ball(horizontal_screens, tz_offset, requests, ssl_requests, data, decoded_json)
 while True:
     try:
         server.poll()
