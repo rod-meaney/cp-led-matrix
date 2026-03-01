@@ -174,11 +174,6 @@ def base(request: Request):
 #decoded_json = {"name":"Magic8Ball"}
 #dis = Magic8Ball(all_config, decoded_json)
 while True:
-    server.poll()
-    dis.poll()
- 
-
-'''
     try:
         server.poll()
     except Exception as e:
@@ -193,4 +188,6 @@ while True:
         error_message = f"An error occurred at {ctime.tm_hour:02}:{ctime.tm_min:02} {e} - TRY ANOTHER FUNCTION, or RESTART DEVICE"
         dis = LEDMatrixBasic(all_config, data, {"text":error_message,"color":"Red"})
 '''
-
+    server.poll()
+    dis.poll()
+'''
