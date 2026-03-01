@@ -18,7 +18,9 @@ class LEDMatrix(object):
     Nothing but the simplest base functions
     '''
 
-    def __init__(self, horizontal_screens, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
+    def __init__(self, config, json_data, piType="pico"):
+        horizontal_screens = config["horizontal_screens"]
+        
         displayio.release_displays()
         #Set up the board
         if piType == "pico":
@@ -45,10 +47,10 @@ class LEDMatrix(object):
         #Constants needed
         self.sleep = 0.05
         self.start_time = time.monotonic() #When the new display is started
-        self.tz_offset = int(tzOffset)
+        self.tz_offset = int(config["tz_offset"])
         
-        self.requests = requests
-        self.ssl_requests = ssl_requests
+        self.requests = config["requests"]
+        self.ssl_requests = config["ssl_requests"]
         
         #Default time to show current matrix 0 = forever
         self.mins = 0
@@ -57,7 +59,10 @@ class LEDMatrix(object):
         self.on = True
 
         #Set the data for any of the classes to use as necessary
-        self.data = data
+        self.data = config["data"]
+
+        #Key for weather API
+        self.weatherstack_access_key = config["weatherstack_access_key"]
 
         #Prepare a tile grid just in case
         self.tile_grid = 0
@@ -149,8 +154,8 @@ class LEDMatrixBasic(LEDMatrix):
     Helper functions for the project
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
+    def __init__(self, config, json_data, piType="pico"):
+        super().__init__(config, json_data, piType)
     
     def load(self,json_data):
         self.label = adafruit_display_text.label.Label(terminalio.FONT, text=json_data["text"], color=self.get_color(json_data["color"]), x=0, y=12)
@@ -169,8 +174,8 @@ class LEDMatrixStop(LEDMatrix):
     standard starts with a blank screen, so nothing to do
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
+    def __init__(self, config, json_data, piType="pico"):
+        super().__init__(config, json_data, piType)
     
     def load(self,json_data):
         pass
@@ -183,8 +188,8 @@ class UpScroll(LEDMatrix):
     Simple text but scroll upwards - padding done manually
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
+    def __init__(self, config, json_data, piType="pico"):
+        super().__init__(config, json_data, piType)
     
     def load(self,json_data):
         #may have to do some text manipulation here

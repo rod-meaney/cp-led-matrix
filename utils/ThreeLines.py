@@ -15,8 +15,8 @@ class ThreeLines(LEDMatrix):
     Helper functions for the project
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
+    def __init__(self, config, json_data, piType="pico"):
+        super().__init__(config, json_data, piType)
             
     def run(self):
         for label in self.labels:
@@ -30,8 +30,8 @@ class ThreeLines(LEDMatrix):
                 self.tram_label(label)
             elif label["type"] == "weather":
                 self.weather_label(label)
-            elif label["type"] == "catfacts":
-                self.cat_facts(label)
+            elif label["type"] == "weather_search":
+                self.weather_search_label(label) 
         self.initialise = False
         self.display.refresh(minimum_frames_per_second=0)
     
@@ -88,6 +88,7 @@ class ThreeLines(LEDMatrix):
         except Exception as e:
             # Making it backwards compatiable with earlier versions
             pass
+        
         
         check_every = 20
         TramUrl=f"http://tramtracker.com.au/Controllers/GetNextPredictionsForStop.ashx?stopNo={stopNo}&routeNo={routeNo}&isLowFloor=false"
@@ -146,6 +147,28 @@ class ThreeLines(LEDMatrix):
             except Exception as e:
                 self.temperature_missed = '*'
             label.text = f'{abbrev}:{self.temperature}{self.temperature_missed}c'
+            self.center_label(label)
+
+    def weather_search_label(self, row):
+        #NOTE - seeing if it works better than the last one
+        label = row["label"]
+        city=row["data"]["city"]
+        city_label = city
+        if row["data"]["short"] != '':
+            city_label = row["data"]["short"]
+        check_every = 300 #5 minutes = 300
+        weatherurl =f'http://api.weatherstack.com/forecast?access_key={self.weatherstack_access_key}&query={city}'
+        if ((math.ceil(time.monotonic() - self.last_weather_check) % check_every)== 0) or self.initialise:
+            self.last_weather_check = time.monotonic()
+            try:
+                time.sleep(self.sleep) #recommended to pause before sending requests from pico
+                response = self.ssl_requests.get(weatherurl, timeout=2)
+                data = json.loads(response.text)
+                self.temperature = str(data['current']['temperature'])
+                self.temperature_missed = ''
+            except Exception as e:
+                self.temperature_missed = '*'
+            label.text = f'{city_label}:{self.temperature}{self.temperature_missed}c'
             self.center_label(label)
 
     def cat_facts(self, row):

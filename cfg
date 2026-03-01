@@ -2,5 +2,6 @@ timezonedb_api_key=<see https://timezonedb.com/ to register and get a key>
 timezonedb_zone=Australia/Melbourne
 WIFI_SSID=<add your own>
 WIFI_PASSWORD=<add your own>
+weatherstack_access_key=<see https://weatherstack.com/ to register>
 HOSTNAME=rgb-matrix
 horizontal_screens=1

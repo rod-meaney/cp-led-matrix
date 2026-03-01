@@ -63,6 +63,14 @@ function text_display_process(){
                 const weather_city = document.getElementById(`text-display-component-${i}-city-select`).value;
                 req["lines"].push({"type":"weather", "color":weather_color, "data":{"city":weather_city}});
                 break;
+            case "Weather Search":
+                const weather_search_color = document.getElementById(`text-display-component-${i}-color-select`).value;
+                const weather_search_city = document.getElementById(`text-display-component-${i}-city-text-input`);
+                weather_search_city.value = weather_search_city.value.trim();
+                const weather_search_short = document.getElementById(`text-display-component-${i}-short-text-input`);
+                weather_search_short.value = weather_search_short.value.trim();
+                req["lines"].push({"type":"weather_search", "color":weather_search_color, "data":{"city":weather_search_city.value, "short":weather_search_short.value}});
+                break;                
             case "Time":
                 const time_color = document.getElementById(`text-display-component-${i}-color-select`).value;
                 let time_seconds = false;
@@ -73,6 +81,7 @@ function text_display_process(){
                 console.log('This is a problem!');
         }
     }
+    console.log(req);
     return req;
 }
 
@@ -84,7 +93,7 @@ function text_display_update_lines(selected_value){
 }
 
 function text_display_line_load(prefix,parent_node,lines){
-    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling","Weather"]; //,"Cat Facts" Cat facts has a cerificate error :-( 
+    const line_options = ["--Select one--", "Text","Time","Tram","Scrolling","Weather Search"]; //,"Cat Facts" Cat facts has a cerificate error :-( As does Waether, trying Weather Search
     for (let i = 1; i <= lines; i++) {
         component_heading(parent_node, "h5", "Line "+i);
         component_select(prefix, "line-"+i, parent_node, line_options, true, text_display_choice_load);
@@ -117,11 +126,19 @@ function text_display_cat_facts_load(prefix, parent_node){
     component_color(prefix,parent_node);
 }
 
-
 function text_display_weather_load(prefix, parent_node){
     parent_node.appendChild(document.createElement("p"));
     component_select(prefix, "city", parent_node, Object.keys(fetched_data.cities).toSorted(), true);
     parent_node.appendChild(document.createElement("p"));
+    component_color(prefix,parent_node);
+}
+
+function text_display_weather_search_load(prefix, parent_node){
+    parent_node.appendChild(document.createElement("p"));
+    component_text(prefix+"-city","  City",parent_node);
+    parent_node.appendChild(document.createElement("p"));
+    component_text(prefix+"-short","  Short name (optional)",parent_node);
+    parent_node.appendChild(document.createElement("p"));    
     component_color(prefix,parent_node);
 }
 
@@ -141,6 +158,7 @@ function text_display_text_load(prefix, parent_node){
     parent_node.appendChild(document.createElement("p"));
     component_color(prefix,parent_node);
 }
+
 
 function text_display_tram_load(prefix, parent_node){
     parent_node.appendChild(document.createElement("p"));

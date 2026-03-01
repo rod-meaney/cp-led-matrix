@@ -13,8 +13,8 @@ class WordPunch(LEDMatrix):
     Helper functions for the project
     '''
 
-    def __init__(self, tzOffset, requests, ssl_requests, data, json_data, piType="pico"):
-        super().__init__(tzOffset, requests, ssl_requests, data, json_data, piType)
+    def __init__(self, config, json_data, piType="pico"):
+        super().__init__(config, json_data, piType)
             
     def run(self):
         self.wordpunch_label.x  = self.wordpunch_label.x -1
