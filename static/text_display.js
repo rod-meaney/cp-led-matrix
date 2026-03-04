@@ -64,12 +64,17 @@ function text_display_process(){
                 req["lines"].push({"type":"weather", "color":weather_color, "data":{"city":weather_city}});
                 break;
             case "Weather Search":
+                const check_options = ["cur_temp","min_temp","max_temp","per_rain","rain_mm","condition","units"];
+                let options = {}
+                check_options.forEach((option, index) => {
+                    options[option] = document.getElementById(`text-display-component-${i}-check-${option}`).checked;
+                });
                 const weather_search_color = document.getElementById(`text-display-component-${i}-color-select`).value;
                 const weather_search_city = document.getElementById(`text-display-component-${i}-city-text-input`);
                 weather_search_city.value = weather_search_city.value.trim();
                 const weather_search_short = document.getElementById(`text-display-component-${i}-short-text-input`);
                 weather_search_short.value = weather_search_short.value.trim();
-                req["lines"].push({"type":"weather_search", "color":weather_search_color, "data":{"city":weather_search_city.value, "short":weather_search_short.value}});
+                req["lines"].push({"type":"weather_search", "color":weather_search_color, "data":{"city":weather_search_city.value, "short":weather_search_short.value, "options":options}});
                 break;                
             case "Time":
                 const time_color = document.getElementById(`text-display-component-${i}-color-select`).value;
@@ -138,7 +143,21 @@ function text_display_weather_search_load(prefix, parent_node){
     component_text(prefix+"-city","  City",parent_node);
     parent_node.appendChild(document.createElement("p"));
     component_text(prefix+"-short","  Short name (optional)",parent_node);
-    parent_node.appendChild(document.createElement("p"));    
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "cur_temp", "Current Temperature", parent_node)
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "min_temp", "Min Temperature", parent_node)
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "max_temp", "Max Temperature", parent_node)
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "per_rain", "% Chance rain", parent_node)
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "rain_mm", "Rain (mm)", parent_node)
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "condition", "Short description", parent_node)
+    parent_node.appendChild(document.createElement("p"));
+    component_check(prefix, "units", "Show units", parent_node)
+    parent_node.appendChild(document.createElement("p"));
     component_color(prefix,parent_node);
 }
 

@@ -55,8 +55,8 @@ try:
     HOSTNAME = cfg.getConfig('HOSTNAME')
     timezonedb_api_key = cfg.getConfig('timezonedb_api_key')
     timezonedb_zone = cfg.getConfig('timezonedb_zone')
-    weatherstack_access_key=cfg.getConfig('weatherstack_access_key')
-    all_config["weatherstack_access_key"] = weatherstack_access_key
+    weatherapi_api_key=cfg.getConfig('weatherapi_api_key')
+    all_config["weatherapi_api_key"] = weatherapi_api_key
     horizontal_screens = int(cfg.getConfig('horizontal_screens'))
     all_config["horizontal_screens"] = horizontal_screens
     data = cfg.get_all_matrix_config() #does all the file reads needed
@@ -158,7 +158,7 @@ def base(request: Request):
         if decoded_json["mode"] == 'load':
             dis = CountDown(all_config, decoded_json)
         else:
-            dis.update(decoded_json)            
+            dis.update(decoded_json)
     elif m_name == "Score":
         if decoded_json["mode"] == 'load':
             dis = Score(all_config, decoded_json)

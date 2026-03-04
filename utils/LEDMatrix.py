@@ -62,7 +62,7 @@ class LEDMatrix(object):
         self.data = config["data"]
 
         #Key for weather API
-        self.weatherstack_access_key = config["weatherstack_access_key"]
+        self.weatherapi_api_key = config["weatherapi_api_key"]
 
         #Prepare a tile grid just in case
         self.tile_grid = 0

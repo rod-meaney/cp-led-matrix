@@ -45,6 +45,19 @@ function component_text(prefix, label, parent_node){
     parent_node.appendChild(document.createTextNode('  '+label));
 }
 
+function component_check(prefix, name, label, parent_node){
+    const checkElement = document.createElement("input");
+    checkElement.type = 'checkbox';
+    checkElement.id = "{0}-check-{1}".replace('{0}',prefix).replace('{1}',name); // Set an ID
+    checkElement.name = checkElement.id; // Set a name for form submission - never really use
+    checkElement.value = name;
+    const checklabel = document.createElement('label')
+    checklabel.htmlFor = checkElement.id;
+    checklabel.appendChild(document.createTextNode(label));
+    parent_node.appendChild(checkElement);
+    parent_node.appendChild(checklabel);
+}
+
 function component_textarea(prefix, label, parent_node){
     const textElement = document.createElement("textarea");
     textElement.id = "{0}-textarea".replace('{0}',prefix); // Set an ID
@@ -145,6 +158,8 @@ function component_radio_buttons(prefix, parent_node, value_label_arr, checked_v
         parent_node.appendChild(radio.lbl);
     });
 }
+
+
 
 function component_button(parent_node, label, onclick_fn){
     let submit = document.createElement('button');

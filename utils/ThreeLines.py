@@ -157,20 +157,55 @@ class ThreeLines(LEDMatrix):
         if row["data"]["short"] != '':
             city_label = row["data"]["short"]
         check_every = 300 #5 minutes = 300
-        weatherurl =f'http://api.weatherstack.com/forecast?access_key={self.weatherstack_access_key}&query={city}'
+        weatherurl =f'http://api.weatherapi.com/v1/forecast.json?key={self.weatherapi_api_key}&days=1&aqi=no&alerts=no&hour=25&q={city}'
         if ((math.ceil(time.monotonic() - self.last_weather_check) % check_every)== 0) or self.initialise:
             self.last_weather_check = time.monotonic()
             try:
                 time.sleep(self.sleep) #recommended to pause before sending requests from pico
                 response = self.ssl_requests.get(weatherurl, timeout=2)
                 data = json.loads(response.text)
-                self.temperature = str(data['current']['temperature'])
+                self.temperature = self.weather_format_options(row["data"]["options"], data, row["data"]["options"]["units"])
+                #self.temperature = str(data['current']['temp_c'])
                 self.temperature_missed = ''
             except Exception as e:
                 self.temperature_missed = '*'
-            label.text = f'{city_label}:{self.temperature}{self.temperature_missed}c'
-            self.center_label(label)
+            label.text = f'{city_label}:{self.temperature}{self.temperature_missed}'
+            if label.width > self.display.width:
+                row["scroll"] = True
+                label.x = self.display.width
+            else:
+                row["scroll"] = False
+                self.center_label(label)
+        if row["scroll"]:
+            label.x  = label.x -1
+            label_width = label.bounding_box[2]
+            if label.x < -label_width:
+                label.x = self.width
+            
+    def weather_format_options(self, options, data, units):
+        if units:
+            unit_mapping = {"cur_temp":"c","min_temp":"c","max_temp":"c","per_rain":"%","rain_mm":"mm","condition":""}
+        else:
+            unit_mapping = {"cur_temp":"", "min_temp":"", "max_temp":"", "per_rain":"", "rain_mm":"",  "condition":""}
+        parts = []
+        if options["cur_temp"]:
+            parts.append(str(round(data['current']['temp_c']))+unit_mapping["cur_temp"])
+        if options["min_temp"]:
+            parts.append(str(round(data['forecast']['forecastday'][0]["day"]["mintemp_c"]))+unit_mapping["min_temp"])
+        if options["max_temp"]:
+            parts.append(str(round(data['forecast']['forecastday'][0]["day"]["maxtemp_c"]))+unit_mapping["max_temp"])
+        if options["per_rain"]:
+            parts.append(str(round(data['forecast']['forecastday'][0]["day"]["daily_chance_of_rain"]))+unit_mapping["per_rain"])
+        if options["rain_mm"]:
+            parts.append(str(round(data['forecast']['forecastday'][0]["day"]["totalprecip_mm"]))+unit_mapping["rain_mm"])
+        if options["condition"]:
+            parts.append(str(data['forecast']['forecastday'][0]["day"]["condition"]["text"])+unit_mapping["condition"])
+        if len(parts) == 0:
+            parts.append(str(round(data['current']['temp_c']))+unit_mapping["cur_temp"])
+            
+        return ",".join(parts)
 
+        
     def cat_facts(self, row):
         label = row["label"]
         last_cat_check = row["clock"]
