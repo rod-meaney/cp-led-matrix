@@ -190,25 +190,12 @@ class ThreeLines(LEDMatrix):
         parts = []
         if options["cur_temp"]:
             parts.append(str(round(data['current']['temp_c']))+unit_mapping["cur_temp"])
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        if options["min_temp"]:
-            parts.append(str(round(data['forecast']['forecastday'][0]["day"]["mintemp_c"]))+unit_mapping["min_temp"])
-        if options["max_temp"]:
-            parts.append(str(round(data['forecast']['forecastday'][0]["day"]["maxtemp_c"]))+unit_mapping["max_temp"])
-=======
-=======
->>>>>>> Stashed changes
         if options["min_temp"] and not options["max_temp"]:
             parts.append(str(round(data['forecast']['forecastday'][0]["day"]["mintemp_c"]))+unit_mapping["min_temp"])
         if options["max_temp"] and not options["min_temp"]:
             parts.append(str(round(data['forecast']['forecastday'][0]["day"]["maxtemp_c"]))+unit_mapping["max_temp"])
         if options["max_temp"] and options["min_temp"]:
             parts.append(str(round(data['forecast']['forecastday'][0]["day"]["mintemp_c"]))+"-"+str(round(data['forecast']['forecastday'][0]["day"]["maxtemp_c"]))+unit_mapping["max_temp"])
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         if options["per_rain"]:
             parts.append(str(round(data['forecast']['forecastday'][0]["day"]["daily_chance_of_rain"]))+unit_mapping["per_rain"])
         if options["rain_mm"]:
