@@ -75,13 +75,14 @@ You should now be able to run code.py, and be able to go to the 'website', the a
 ### Build our LED matrix display
 Have a look at the picture above, it gives you a pretty good idea of where we are going.
 
-1. Start with connecting the IDC ribbons pins to the Pico. Using the Pico diagram and the table below. (Disconnect it from the Micro USB to do this)
-![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
+1. Start with connecting the IDC ribbons pins to the Pico. Using the Pinout and Pico diagrams along with the table below. (Disconnect it from the Micro USB to do this)
 ![Pin outs for the RGB Matrix](/README/RGBMatrixPins.jpg)
+![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
 
-Wire (if you are not colour blind) to Pico Pin is the easiest way to go.
+
+I find Data Input to Pico Pin (which matches what is coded/configured to GPIO in code) is the easiest way to go.
 ```
-| Function          | GPIO Pin | Pico Pin 1 | Pico Pin 2 | Pico Pin 3 |
+| Data Input        | GPIO Pin | Pico Pin 1 | Pico Pin 2 | Pico Pin 3 |
 |-------------------|----------|------------|------------|------------|
 | High R data       | GP0      | 1          | 1          | 1          |
 | High G data       | GP1      | 2          | 4          | 4          |
