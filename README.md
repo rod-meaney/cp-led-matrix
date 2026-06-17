@@ -178,7 +178,7 @@ You can put more than one panel into series - I had 3 working at one point with 
 * Scrolling Text - part of Display Text / ThreeLines
 * Clock - part of Display Text / ThreeLines
 * Images and animations need to be pre-loaded onto the Pico, but just loading the files using underscores in the filename will have them appear in the options. For best results, make them 64 x 32 bit images. Lots of websites out there to help you.
-* * Added a feature to roate all the iopages through
+  * Added a feature to rotate all the images through
 * And more, 8 Ball shaker, Word Punch, Up Scroll - play with them and add more!
 
 
