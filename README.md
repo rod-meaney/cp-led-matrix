@@ -20,7 +20,7 @@ I have zero affiliation with the company I am going to use for reference, but my
 1. [Raspberry Pi Pico 2WH (Wireless WiFi, with Headers)](https://core-electronics.com.au/raspberry-pi-pico-2-wh-with-headers.html)
 2. [5V DC 4A Fixed 2.1mm Tip Appliance Plugpack](https://core-electronics.com.au/5v-dc-4a-fixed-2-1mm-tip-appliance-plugpack-47354.html)
 3. [DC Barrel Jack Adapter - Female](https://core-electronics.com.au/dc-barrel-jack-adapter-female-7392.html)
-4. [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) - this includes
+4. [RGB full-color LED matrix panel (4mm Pitch, 64x32 pixels)](https://core-electronics.com.au/64x32-rgb-led-matrix-panel-4mm-pitch.html) - this includes
     - 4a IDC to XH2.54 - from LED matrix to Pico GPIO Pins
     - 4b Power Supply Cable
 5. Micro USB cable and power (phone charger more than enough)
@@ -80,28 +80,27 @@ Have a look at the picture above, it gives you a pretty good idea of where we ar
 
 Wire (if you are not colour blind) to Pico Pin is the easiest way to go.
 ```
-| Function          | Wire   | GPIO Pin | Pico Pin* |
-|-------------------|--------|----------|-----------|
-| High R data       | Blue   | GP0      | 1         |
-| High G data       | Green  | GP1      | 2   (4)   |
-| High B data       | Yellow | GP2      | 4   (2)   |
-| GND               | Orange | GND      | 3         |
-| Low R data        | Red    | GP3      | 5         |
-| Low G data        | Brown  | GP4      | 6   (7)   |
-| Low B data        | Black  | GP5      | 7   (6)   |
-| GND               | White  | GND      | 8         |
-| A line selection  | Grey   | GP6      | 9         |
-| B line selection  | Purple | GP7      | 10        |
-| C line selection  | Blue   | GP8      | 11        |
-| D line selection  | Green  | GP9      | 12        |
-| E line selection  |        |          |           |
-| CLOCK             | Yellow | GP10     | 14        |
-| LATCH             | Orange | GP11     | 15        |
-| Output Enable     | Red    | GP12     | 16        |
-| GND               | Brown  | GND      | 18        |
+| Function          | GPIO Pin | Pico Pin 1 | Pico Pin 2 | Pico Pin 3 |
+|-------------------|----------|------------|------------|------------|
+| High R data       | GP0      | 1          | 1          | 1          |
+| High G data       | GP1      | 2          | 4          | 4          |
+| High B data       | GP2      | 4          | 2          | 2          |
+| GND               | GND      | 3          | 3          | 3          |
+| Low R data        | GP3      | 5          | 5          | 5          |
+| Low G data        | GP4      | 6          | 7          | 6          |
+| Low B data        | GP5      | 7          | 6          | 7          |
+| E line selection* | GND      | 8          | 8          | 8          |
+| A line selection  | GP6      | 9          | 9          | 9          |
+| B line selection  | GP7      | 10         | 10         | 10         |
+| C line selection  | GP8      | 11         | 11         | 11         |
+| D line selection  | GP9      | 12         | 12         | 12         |
+| CLOCK             | GP10     | 14         | 14         | 14         |
+| LATCH             | GP11     | 15         | 15         | 15         |
+| Output Enable     | GP12     | 16         | 16         | 16         |
+| GND               | GND      | 18         | 18         | 18         |
 ```
 > [!NOTE]
-> The above pin allocation is for the Matrix in the list above. I also bought a [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) and its pin allocation varies slightly - the brackets () in the above table
+> `* is for expanding to 64x64, which we are not doing, we plug it inopt GND for ease. The above Pico Pin 1 allocation is for the Matrix in the list above. I also bought a [RGB full-color LED matrix panel (2.5mm Pitch, 64x32 pixels)](https://core-electronics.com.au/rgb-full-color-led-matrix-panel-25mm-pitch-64x32-pixels.html) and its pin allocation varies slightly (2 was original 2.5mm matrix, 3 was newer 2.5mm metrix). I ended up using the Up Scroll functionality to get the colours right, I had to play with the RGB pins - VERY inconsistent and not accurate on the spec page.  I also originally had wire colours, but they switched the order as well.
 
 
 2. Connect the other end of the IDC to the Matrix (make sure its to the right end)
