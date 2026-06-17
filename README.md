@@ -77,6 +77,7 @@ Have a look at the picture above, it gives you a pretty good idea of where we ar
 
 1. Start with connecting the IDC ribbons pins to the Pico. Using the Pico diagram and the table below. (Disconnect it from the Micro USB to do this)
 ![Pico Pin Diagram](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-2-r4-pinout.svg)
+![Pin outs for the RGB Matrix](/README/RGBMatrixPins.jpg)
 
 Wire (if you are not colour blind) to Pico Pin is the easiest way to go.
 ```
